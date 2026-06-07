@@ -1,0 +1,180 @@
+# RevKeen CLI
+
+> RevKeen CLI — manage payments, subscriptions & billing
+
+## Commands
+
+- `revkeen` — RevKeen CLI — manage payments, subscriptions & billing
+- `revkeen analytics` — Operations on analytics
+- `revkeen analytics help` — Help about any command
+- `revkeen analytics revenue-mrr-summary` — MRR Summary
+- `revkeen analytics revenue-time-series` — Revenue Time Series
+- `revkeen api` — Make raw API requests
+- `revkeen auth` — Authenticate with RevKeen
+- `revkeen auth help` — Help about any command
+- `revkeen auth login` — Authenticate with RevKeen
+- `revkeen auth logout` — Clear stored credentials
+- `revkeen auth status` — Show current authentication status
+- `revkeen cart-sessions` — Operations on cart-sessions
+- `revkeen cart-sessions add-line-item` — Add a line item to a cart session
+- `revkeen cart-sessions apply-discount-code` — Set or clear a cart discount code
+- `revkeen cart-sessions convert` — Convert a cart session into a checkout session
+- `revkeen cart-sessions create` — Create a cart session
+- `revkeen cart-sessions get` — Retrieve a cart session
+- `revkeen cart-sessions help` — Help about any command
+- `revkeen cart-sessions remove-line-item` — Remove a line item from a cart session
+- `revkeen cart-sessions toggle-add-on` — Toggle an add-on on a cart session
+- `revkeen cart-sessions update-line-item` — Update a line item's quantity
+- `revkeen checkout-sessions` — Operations on checkout-sessions
+- `revkeen checkout-sessions create` — Create a checkout session
+- `revkeen checkout-sessions expire` — Expire a checkout session
+- `revkeen checkout-sessions get` — Retrieve a checkout session
+- `revkeen checkout-sessions help` — Help about any command
+- `revkeen config` — Manage CLI configuration
+- `revkeen config help` — Help about any command
+- `revkeen config list` — Show current configuration
+- `revkeen config set` — Set a configuration value
+- `revkeen credit-notes` — Operations on credit-notes
+- `revkeen credit-notes create` — Create a credit note
+- `revkeen credit-notes get` — Get credit note by ID
+- `revkeen credit-notes help` — Help about any command
+- `revkeen credit-notes list` — List credit notes
+- `revkeen credit-notes list-lines` — List line items on a credit note
+- `revkeen credit-notes preview` — Preview a credit note without creating it
+- `revkeen credit-notes void` — Void a credit note
+- `revkeen customer-meters` — Operations on customer-meters
+- `revkeen customer-meters get` — Retrieve a customer-meter aggregate
+- `revkeen customer-meters help` — Help about any command
+- `revkeen customer-meters list` — List a customer's meter usage
+- `revkeen customer-portal` — Operations on customer-portal
+- `revkeen customer-portal customer-get` — Retrieve the authenticated customer
+- `revkeen customer-portal help` — Help about any command
+- `revkeen customer-portal invoices-get` — Retrieve an invoice
+- `revkeen customer-portal invoices-list` — List the authenticated customer's invoices
+- `revkeen customer-portal sessions-create` — Create a customer-portal session
+- `revkeen customer-portal subscriptions-cancel` — Cancel a subscription
+- `revkeen customer-portal subscriptions-get` — Retrieve a subscription
+- `revkeen customer-portal subscriptions-list` — List the authenticated customer's subscriptions
+- `revkeen customers` — Operations on customers
+- `revkeen customers create` — Create a new customer
+- `revkeen customers get` — Get customer by ID
+- `revkeen customers help` — Help about any command
+- `revkeen customers list` — List customers
+- `revkeen customers payment-methods-list` — Get customer payment methods
+- `revkeen customers payment-rails-get` — Get customer payment rail availability
+- `revkeen customers preferred-rails-get` — Get preferred payment rails
+- `revkeen customers update` — Update customer details
+- `revkeen entitlements` — Operations on entitlements
+- `revkeen entitlements check` — Check entitlement access
+- `revkeen entitlements help` — Help about any command
+- `revkeen entitlements list` — List entitlements
+- `revkeen events` — Operations on events
+- `revkeen events get` — Retrieve an event
+- `revkeen events help` — Help about any command
+- `revkeen events list` — List events
+- `revkeen events resend` — Resend webhook for an event
+- `revkeen help` — Help about any command
+- `revkeen invoices` — Operations on invoices
+- `revkeen invoices create` — Create invoice
+- `revkeen invoices finalize` — Finalize an invoice
+- `revkeen invoices get` — Get invoice
+- `revkeen invoices help` — Help about any command
+- `revkeen invoices list` — List invoices
+- `revkeen invoices margin-estimate` — Estimate invoice net by payment rail
+- `revkeen invoices send` — Send an invoice
+- `revkeen invoices update` — Update invoice
+- `revkeen invoices void` — Void an invoice
+- `revkeen payment-intents` — Operations on payment-intents
+- `revkeen payment-intents cancel` — Cancel a payment intent
+- `revkeen payment-intents capture` — Capture a payment intent
+- `revkeen payment-intents confirm` — Confirm a payment intent
+- `revkeen payment-intents create` — Create a payment intent
+- `revkeen payment-intents get` — Retrieve a payment intent
+- `revkeen payment-intents help` — Help about any command
+- `revkeen payment-intents list` — List payment intents
+- `revkeen payment-links` — Operations on payment-links
+- `revkeen payment-links activate` — Activate a payment link (deprecated)
+- `revkeen payment-links archive` — Archive a payment link (deprecated)
+- `revkeen payment-links create` — Create a new payment link
+- `revkeen payment-links deactivate` — Deactivate a payment link (deprecated)
+- `revkeen payment-links expire` — Expire a payment link (deprecated)
+- `revkeen payment-links get` — Get payment link by ID
+- `revkeen payment-links help` — Help about any command
+- `revkeen payment-links list` — List payment links
+- `revkeen payment-links update` — Update payment link status
+- `revkeen prices` — Operations on prices
+- `revkeen prices archive` — Archive a price
+- `revkeen prices create` — Create a price
+- `revkeen prices get` — Retrieve a price
+- `revkeen prices help` — Help about any command
+- `revkeen prices list` — List prices
+- `revkeen prices update` — Update a price
+- `revkeen products` — Operations on products
+- `revkeen products create` — Create product
+- `revkeen products get` — Get product by ID
+- `revkeen products help` — Help about any command
+- `revkeen products list` — List products
+- `revkeen products update` — Update product
+- `revkeen refunds` — Operations on refunds
+- `revkeen refunds create` — Create a refund
+- `revkeen refunds get` — Get refund by ID
+- `revkeen refunds help` — Help about any command
+- `revkeen refunds list` — List refunds
+- `revkeen subscriptions` — Operations on subscriptions
+- `revkeen subscriptions cancel` — Cancel subscription
+- `revkeen subscriptions create` — Create a new subscription
+- `revkeen subscriptions get` — Get subscription by ID
+- `revkeen subscriptions help` — Help about any command
+- `revkeen subscriptions list` — List subscriptions
+- `revkeen subscriptions update` — Update subscription details
+- `revkeen terminal` — Manage POS terminal devices
+- `revkeen terminal help` — Help about any command
+- `revkeen terminal pair` — Pair a POS terminal device
+- `revkeen terminal pay` — Initiate a payment on a terminal
+- `revkeen terminal status` — Show status of connected terminals
+- `revkeen transactions` — Operations on transactions
+- `revkeen transactions get` — Get transaction by ID
+- `revkeen transactions help` — Help about any command
+- `revkeen transactions list` — List transactions
+- `revkeen webhook-deliveries` — Operations on webhook-deliveries
+- `revkeen webhook-deliveries get` — Retrieve a webhook delivery
+- `revkeen webhook-deliveries help` — Help about any command
+- `revkeen webhook-deliveries list` — List webhook deliveries
+- `revkeen webhook-deliveries retry` — Retry a webhook delivery
+- `revkeen webhook-endpoints` — Operations on webhook-endpoints
+- `revkeen webhook-endpoints create` — Create webhook endpoint
+- `revkeen webhook-endpoints delete` — Delete webhook endpoint
+- `revkeen webhook-endpoints get` — Get webhook endpoint
+- `revkeen webhook-endpoints help` — Help about any command
+- `revkeen webhook-endpoints list` — List webhook endpoints
+- `revkeen webhook-endpoints rotate-secret` — Rotate signing secret
+- `revkeen webhook-endpoints update` — Update webhook endpoint
+- `revkeen webhooks` — Work with RevKeen webhooks
+- `revkeen webhooks help` — Help about any command
+- `revkeen webhooks list` — List registered webhook endpoints
+- `revkeen webhooks listen` — Forward webhook events to a local URL
+
+## Global Flags
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+## Install
+
+```bash
+npm install -g @revkeen/cli-binary
+brew install revkeen/tap/revkeen
+curl -fsSL https://cli.revkeen.com/install.sh | sh
+```
+
+## Links
+
+- [API Reference](https://docs.revkeen.com/api-reference/openapi)
+- [Full CLI docs](https://github.com/revkeen/cli)
+- [llms-full.txt](llms-full.txt)
