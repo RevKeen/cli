@@ -1,0 +1,32 @@
+## revkeen cart-sessions set-contact
+
+Capture customer email + consent on a cart
+
+```
+revkeen cart-sessions set-contact [flags]
+```
+
+### Options
+
+```
+      --Idempotency-Key string   Stable caller-owned key for this logical mutation. Reuse only with an identical request.
+      --climate-data string      
+  -h, --help                     help for set-contact
+      --id string                
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+### SEE ALSO
+
+* [revkeen cart-sessions](revkeen_cart-sessions.md)	 - Operations on cart-sessions
+
