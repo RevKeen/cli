@@ -1,0 +1,7247 @@
+# RevKeen CLI — Full Reference
+
+## revkeen
+
+RevKeen CLI — manage payments, subscriptions & billing
+
+### Synopsis
+
+The official RevKeen command-line interface.
+Manage customers, invoices, products, subscriptions, and more from your terminal.
+
+Install:
+  npm install -g @revkeen/cli-binary
+  brew install revkeen/tap/revkeen
+  curl -fsSL https://cli.revkeen.com/install.sh | sh
+
+Authentication:
+  revkeen login             OAuth PKCE browser login (default)
+  revkeen login --device    Device grant (SSH / headless)
+  revkeen login --api-key   Interactive API key login
+  REVKEEN_API_KEY=rk_...    Environment variable
+
+Quick start:
+  revkeen dashboard
+  revkeen customers list
+  revkeen invoices get inv_xxxxxxxx --json
+  revkeen api GET /v2/customers
+
+```
+revkeen [flags]
+```
+
+### Options
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+  -h, --help             help for revkeen
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen analytics
+
+Operations on analytics
+
+### Options
+
+```
+  -h, --help   help for analytics
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen analytics help
+
+Help about any command
+
+### Synopsis
+
+Help provides help for any command in the application.
+Simply type analytics help [path to command] for full details.
+
+```
+revkeen analytics help [command] [flags]
+```
+
+### Options
+
+```
+  -h, --help   help for help
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen analytics revenue-mrr-summary
+
+MRR Summary
+
+```
+revkeen analytics revenue-mrr-summary [flags]
+```
+
+### Options
+
+```
+      -- string           
+      --asOfDate string   Calculate MRR as of this date (ISO 8601)
+  -h, --help              help for revenue-mrr-summary
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen analytics revenue-time-series
+
+Revenue Time Series
+
+```
+revkeen analytics revenue-time-series [flags]
+```
+
+### Options
+
+```
+      -- string              
+      --endDate string       End date (ISO 8601)
+      --granularity string   Time granularity for data points
+  -h, --help                 help for revenue-time-series
+      --startDate string     Start date (ISO 8601)
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen api
+
+Make raw API requests
+
+### Synopsis
+
+Make authenticated HTTP requests to any RevKeen API endpoint.
+This is an escape hatch for endpoints not exposed as named CLI commands.
+
+```
+revkeen api [method] [path] [flags]
+```
+
+### Examples
+
+```
+  # GET request
+  revkeen api GET /v2/customers
+
+  # POST request with JSON body
+  revkeen api POST /v2/invoices -d '{"customerId":"cus_xxx","amount":5000}'
+
+  # DELETE request
+  revkeen api DELETE /v2/webhook-endpoints/we_xxx
+
+  # Agent mode — raw JSON passthrough
+  revkeen api GET /v2/customers --agent
+```
+
+### Options
+
+```
+  -d, --data string   Request body (JSON string)
+  -h, --help          help for api
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen auth
+
+Authenticate with RevKeen
+
+### Synopsis
+
+Log in, log out, or check your current authentication status.
+
+### Options
+
+```
+  -h, --help   help for auth
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen auth help
+
+Help about any command
+
+### Synopsis
+
+Help provides help for any command in the application.
+Simply type auth help [path to command] for full details.
+
+```
+revkeen auth help [command] [flags]
+```
+
+### Options
+
+```
+  -h, --help   help for help
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen auth login
+
+Authenticate with RevKeen
+
+### Synopsis
+
+Authenticate with RevKeen.
+
+Default (interactive): OAuth authorization-code + PKCE with a local
+127.0.0.1 callback — opens the browser for sign-in and consent.
+
+Alternatives:
+  --device       OAuth device grant (SSH / Codespaces / headless)
+  --api-key      Secret API key (rk_live_* / rk_sandbox_*)
+  --with-token   Read a bearer token or API key from stdin / REVKEEN_ACCESS_TOKEN
+
+API keys and environment variables remain fully supported.
+
+```
+revkeen auth login [flags]
+```
+
+### Examples
+
+```
+  # PKCE browser login (default)
+  revkeen login
+  revkeen auth login
+
+  # Device flow (SSH / no browser automation)
+  revkeen login --device
+  revkeen login --device --no-browser
+
+  # API key
+  revkeen login --api-key
+
+  # Token from env or stdin
+  REVKEEN_ACCESS_TOKEN=rkoa_... revkeen login --with-token
+  echo 'rk_live_...' | revkeen login --with-token
+```
+
+### Options
+
+```
+      --api-key      Log in with an API key
+      --device       Use OAuth device authorization grant (RFC 8628)
+  -h, --help         help for login
+      --no-browser   Print the authorize/verification URL instead of opening a browser
+      --with-token   Read bearer token or API key from REVKEEN_ACCESS_TOKEN or stdin
+```
+
+### Options inherited from parent commands
+
+```
+      --agent           Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --json            Shorthand for --output json (pretty-printed)
+      --no-color        Disable color output
+  -o, --output string   Output format: table, json, yaml, csv (default "table")
+      --table           Shorthand for --output table
+```
+
+
+---
+
+## revkeen auth logout
+
+Clear stored credentials
+
+```
+revkeen auth logout [flags]
+```
+
+### Options
+
+```
+  -h, --help   help for logout
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen auth status
+
+Show current authentication status
+
+```
+revkeen auth status [flags]
+```
+
+### Options
+
+```
+  -h, --help   help for status
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen billing
+
+Operations on billing
+
+### Options
+
+```
+  -h, --help   help for billing
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen billing help
+
+Help about any command
+
+### Synopsis
+
+Help provides help for any command in the application.
+Simply type billing help [path to command] for full details.
+
+```
+revkeen billing help [command] [flags]
+```
+
+### Options
+
+```
+  -h, --help   help for help
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen billing overview-get
+
+Get merchant billing overview
+
+```
+revkeen billing overview-get [flags]
+```
+
+### Options
+
+```
+      -- string   
+  -h, --help      help for overview-get
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen cart
+
+Set up and inspect RevKeen Cart for headless storefronts
+
+### Options
+
+```
+  -h, --help   help for cart
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen cart help
+
+Help about any command
+
+### Synopsis
+
+Help provides help for any command in the application.
+Simply type cart help [path to command] for full details.
+
+```
+revkeen cart help [command] [flags]
+```
+
+### Options
+
+```
+  -h, --help   help for help
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen cart keys
+
+Manage managed Cart API keys
+
+### Options
+
+```
+  -h, --help   help for keys
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen cart keys help
+
+Help about any command
+
+### Synopsis
+
+Help provides help for any command in the application.
+Simply type keys help [path to command] for full details.
+
+```
+revkeen cart keys help [command] [flags]
+```
+
+### Options
+
+```
+  -h, --help   help for help
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen cart keys issue
+
+Ensure the managed publishable + secret Cart keys exist (idempotent)
+
+### Synopsis
+
+Provisions the managed Cart API keys if they do not exist yet.
+Key material is printed ONCE, at first issuance only — store it immediately.
+Re-running reports existing key status without any secret material.
+
+Requires signing in with `revkeen login`: your role in the merchant decides
+whether you can issue keys. Issuing with an API key is being retired.
+
+```
+revkeen cart keys issue [flags]
+```
+
+### Options
+
+```
+  -h, --help   help for issue
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen cart origins
+
+Manage storefront origins allowed for publishable-key browser calls
+
+### Options
+
+```
+  -h, --help   help for origins
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen cart origins add
+
+Register a storefront origin (idempotent — re-adding returns the existing entry)
+
+```
+revkeen cart origins add <url> [flags]
+```
+
+### Options
+
+```
+  -h, --help   help for add
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen cart origins help
+
+Help about any command
+
+### Synopsis
+
+Help provides help for any command in the application.
+Simply type origins help [path to command] for full details.
+
+```
+revkeen cart origins help [command] [flags]
+```
+
+### Options
+
+```
+  -h, --help   help for help
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen cart origins list
+
+List registered storefront origins
+
+```
+revkeen cart origins list [flags]
+```
+
+### Options
+
+```
+  -h, --help   help for list
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen cart origins remove
+
+Remove a registered storefront origin
+
+```
+revkeen cart origins remove <url-or-id> [flags]
+```
+
+### Options
+
+```
+  -h, --help   help for remove
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen cart status
+
+Show Cart integration readiness (activation, keys, origins, webhooks, products)
+
+```
+revkeen cart status [flags]
+```
+
+### Options
+
+```
+  -h, --help   help for status
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen cart webhooks
+
+Configure Cart webhook endpoints
+
+### Options
+
+```
+  -h, --help   help for webhooks
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen cart webhooks help
+
+Help about any command
+
+### Synopsis
+
+Help provides help for any command in the application.
+Simply type webhooks help [path to command] for full details.
+
+```
+revkeen cart webhooks help [command] [flags]
+```
+
+### Options
+
+```
+  -h, --help   help for help
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen cart webhooks setup
+
+Ensure a webhook endpoint exists for the given URL (idempotent)
+
+```
+revkeen cart webhooks setup [flags]
+```
+
+### Options
+
+```
+  -h, --help         help for setup
+      --url string   Webhook endpoint URL (required)
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen cart-api-keys
+
+Operations on cart-api-keys
+
+### Options
+
+```
+  -h, --help   help for cart-api-keys
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen cart-api-keys ensure
+
+Ensure managed Cart API keys exist
+
+```
+revkeen cart-api-keys ensure [flags]
+```
+
+### Options
+
+```
+      -- string   
+  -h, --help      help for ensure
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen cart-api-keys help
+
+Help about any command
+
+### Synopsis
+
+Help provides help for any command in the application.
+Simply type cart-api-keys help [path to command] for full details.
+
+```
+revkeen cart-api-keys help [command] [flags]
+```
+
+### Options
+
+```
+  -h, --help   help for help
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen cart-api-keys rotate
+
+Rotate a managed Cart API key
+
+```
+revkeen cart-api-keys rotate [flags]
+```
+
+### Options
+
+```
+      --climate-data string   
+  -h, --help                  help for rotate
+      --kind string           
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen cart-api-keys status
+
+Get managed Cart API key status
+
+```
+revkeen cart-api-keys status [flags]
+```
+
+### Options
+
+```
+      -- string   
+  -h, --help      help for status
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen cart-sessions
+
+Operations on cart-sessions
+
+### Options
+
+```
+  -h, --help   help for cart-sessions
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen cart-sessions add-line-item
+
+Add a line item to a cart session
+
+```
+revkeen cart-sessions add-line-item [flags]
+```
+
+### Options
+
+```
+      --Idempotency-Key string   Stable caller-owned key for this logical mutation. Reuse only with an identical request.
+      --climate-data string      
+  -h, --help                     help for add-line-item
+      --id string                
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen cart-sessions apply-discount-code
+
+Set or clear a cart discount code
+
+```
+revkeen cart-sessions apply-discount-code [flags]
+```
+
+### Options
+
+```
+      --Idempotency-Key string   Stable caller-owned key for this logical mutation. Reuse only with an identical request.
+      --climate-data string      
+  -h, --help                     help for apply-discount-code
+      --id string                
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen cart-sessions convert
+
+Convert a cart session into a checkout session
+
+```
+revkeen cart-sessions convert [flags]
+```
+
+### Options
+
+```
+      -- string                  
+      --Idempotency-Key string   Stable caller-owned key for this logical mutation. Reuse only with an identical request.
+  -h, --help                     help for convert
+      --id string                
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen cart-sessions create
+
+Create a cart session
+
+```
+revkeen cart-sessions create [flags]
+```
+
+### Options
+
+```
+      --Idempotency-Key string   Stable caller-owned key for this logical mutation. Reuse only with an identical request.
+      --climate-data string      
+  -h, --help                     help for create
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen cart-sessions get
+
+Retrieve a cart session
+
+```
+revkeen cart-sessions get [flags]
+```
+
+### Options
+
+```
+      -- string     
+  -h, --help        help for get
+      --id string   
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen cart-sessions help
+
+Help about any command
+
+### Synopsis
+
+Help provides help for any command in the application.
+Simply type cart-sessions help [path to command] for full details.
+
+```
+revkeen cart-sessions help [command] [flags]
+```
+
+### Options
+
+```
+  -h, --help   help for help
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen cart-sessions remove-line-item
+
+Remove a line item from a cart session
+
+```
+revkeen cart-sessions remove-line-item [flags]
+```
+
+### Options
+
+```
+      -- string                  
+      --Idempotency-Key string   Stable caller-owned key for this logical mutation. Reuse only with an identical request.
+  -h, --help                     help for remove-line-item
+      --id string                
+      --lineId id                Cart line item id (the id field returned on `cart_session.line_items[]`).
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen cart-sessions set-contact
+
+Capture customer email + consent on a cart
+
+```
+revkeen cart-sessions set-contact [flags]
+```
+
+### Options
+
+```
+      --Idempotency-Key string   Stable caller-owned key for this logical mutation. Reuse only with an identical request.
+      --climate-data string      
+  -h, --help                     help for set-contact
+      --id string                
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen cart-sessions toggle-add-on
+
+Toggle an add-on on a cart session
+
+```
+revkeen cart-sessions toggle-add-on [flags]
+```
+
+### Options
+
+```
+      --Idempotency-Key string   Stable caller-owned key for this logical mutation. Reuse only with an identical request.
+      --climate-data string      
+  -h, --help                     help for toggle-add-on
+      --id string                
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen cart-sessions update-line-item
+
+Update a line item's quantity
+
+```
+revkeen cart-sessions update-line-item [flags]
+```
+
+### Options
+
+```
+      --Idempotency-Key string   Stable caller-owned key for this logical mutation. Reuse only with an identical request.
+      --climate-data string      
+  -h, --help                     help for update-line-item
+      --id string                
+      --lineId id                Cart line item id (the id field returned on `cart_session.line_items[]`).
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen checkout-sessions
+
+Operations on checkout-sessions
+
+### Options
+
+```
+  -h, --help   help for checkout-sessions
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen checkout-sessions create
+
+Create a checkout session
+
+```
+revkeen checkout-sessions create [flags]
+```
+
+### Options
+
+```
+      --Idempotency-Key string   Stable caller-owned key for this logical mutation. Reuse only with an identical request.
+      --climate-data string      
+  -h, --help                     help for create
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen checkout-sessions expire
+
+Expire a checkout session
+
+```
+revkeen checkout-sessions expire [flags]
+```
+
+### Options
+
+```
+      -- string                  
+      --Idempotency-Key string   Stable caller-owned key for this logical mutation. Reuse only with an identical request.
+  -h, --help                     help for expire
+      --id string                Checkout session ID to expire.
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen checkout-sessions get
+
+Retrieve a checkout session
+
+```
+revkeen checkout-sessions get [flags]
+```
+
+### Options
+
+```
+      -- string     
+  -h, --help        help for get
+      --id string   Checkout session ID.
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen checkout-sessions help
+
+Help about any command
+
+### Synopsis
+
+Help provides help for any command in the application.
+Simply type checkout-sessions help [path to command] for full details.
+
+```
+revkeen checkout-sessions help [command] [flags]
+```
+
+### Options
+
+```
+  -h, --help   help for help
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen config
+
+Manage CLI configuration
+
+### Options
+
+```
+  -h, --help   help for config
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen config help
+
+Help about any command
+
+### Synopsis
+
+Help provides help for any command in the application.
+Simply type config help [path to command] for full details.
+
+```
+revkeen config help [command] [flags]
+```
+
+### Options
+
+```
+  -h, --help   help for help
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen config list
+
+Show current configuration
+
+```
+revkeen config list [flags]
+```
+
+### Options
+
+```
+  -h, --help   help for list
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen config set
+
+Set a configuration value
+
+### Synopsis
+
+Set a CLI configuration value. Available keys:
+
+  api-key        Your RevKeen API key
+  base-url       API base URL (default: https://api.revkeen.com)
+  output         Default output format: table, json, yaml, csv
+  environment    Target environment: production, staging
+
+```
+revkeen config set [key] [value] [flags]
+```
+
+### Examples
+
+```
+  revkeen config set api-key rk_live_xxx
+  revkeen config set environment staging
+  revkeen config set output json
+```
+
+### Options
+
+```
+  -h, --help   help for set
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen credit-notes
+
+Operations on credit-notes
+
+### Options
+
+```
+  -h, --help   help for credit-notes
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen credit-notes create
+
+Create a credit note
+
+```
+revkeen credit-notes create [flags]
+```
+
+### Options
+
+```
+      --Idempotency-Key string   Stable caller-owned key for this logical mutation. Reuse only with an identical request.
+      --climate-data string      
+  -h, --help                     help for create
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen credit-notes get
+
+Get credit note by ID
+
+```
+revkeen credit-notes get [flags]
+```
+
+### Options
+
+```
+      -- string     
+  -h, --help        help for get
+      --id string   Credit note UUID
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen credit-notes help
+
+Help about any command
+
+### Synopsis
+
+Help provides help for any command in the application.
+Simply type credit-notes help [path to command] for full details.
+
+```
+revkeen credit-notes help [command] [flags]
+```
+
+### Options
+
+```
+  -h, --help   help for help
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen credit-notes list
+
+List credit notes
+
+```
+revkeen credit-notes list [flags]
+```
+
+### Options
+
+```
+      -- string                 
+      --created_after string    ISO 8601 date - only credit notes created after this date
+      --created_before string   ISO 8601 date - only credit notes created before this date
+      --credit_method string    Filter by credit method
+      --customer_id string      Filter by customer ID
+  -h, --help                    help for list
+      --invoice_id string       Filter by invoice ID
+      --limit float             Number of results to return (1-100)
+      --offset float            Number of results to skip
+      --status string           Filter by credit note status
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen credit-notes list-lines
+
+List line items on a credit note
+
+```
+revkeen credit-notes list-lines [flags]
+```
+
+### Options
+
+```
+      -- string     
+  -h, --help        help for list-lines
+      --id string   Credit note UUID
+      --limit int   Maximum number of line items to return (1-100, default 100).
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen credit-notes preview
+
+Preview a credit note without creating it
+
+```
+revkeen credit-notes preview [flags]
+```
+
+### Options
+
+```
+      --Idempotency-Key string   Stable caller-owned key for this logical mutation. Reuse only with an identical request.
+      --climate-data string      
+  -h, --help                     help for preview
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen credit-notes void
+
+Void a credit note
+
+```
+revkeen credit-notes void [flags]
+```
+
+### Options
+
+```
+      -- string                  
+      --Idempotency-Key string   Stable caller-owned key for this logical mutation. Reuse only with an identical request.
+  -h, --help                     help for void
+      --id string                Credit note UUID
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen customer-meters
+
+Operations on customer-meters
+
+### Options
+
+```
+  -h, --help   help for customer-meters
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen customer-meters get
+
+Retrieve a customer-meter aggregate
+
+```
+revkeen customer-meters get [flags]
+```
+
+### Options
+
+```
+      -- string              
+      --customer_id string   Customer UUID
+  -h, --help                 help for get
+      --meter_id string      Meter UUID
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen customer-meters help
+
+Help about any command
+
+### Synopsis
+
+Help provides help for any command in the application.
+Simply type customer-meters help [path to command] for full details.
+
+```
+revkeen customer-meters help [command] [flags]
+```
+
+### Options
+
+```
+  -h, --help   help for help
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen customer-meters list
+
+List a customer's meter usage
+
+```
+revkeen customer-meters list [flags]
+```
+
+### Options
+
+```
+      -- string              
+      --customer_id string   Customer UUID. Required — customer-meters are not queryable merchant-wide via this endpoint. Use /v2/meters for merchant-level meter definitions.
+  -h, --help                 help for list
+      --meter_id string      Optional single-meter filter. When provided, the response contains at most one entry.
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen customer-portal
+
+Operations on customer-portal
+
+### Options
+
+```
+  -h, --help   help for customer-portal
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen customer-portal customer-get
+
+Retrieve the authenticated customer
+
+```
+revkeen customer-portal customer-get [flags]
+```
+
+### Options
+
+```
+      -- string   
+  -h, --help      help for customer-get
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen customer-portal help
+
+Help about any command
+
+### Synopsis
+
+Help provides help for any command in the application.
+Simply type customer-portal help [path to command] for full details.
+
+```
+revkeen customer-portal help [command] [flags]
+```
+
+### Options
+
+```
+  -h, --help   help for help
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen customer-portal invoices-get
+
+Retrieve an invoice
+
+```
+revkeen customer-portal invoices-get [flags]
+```
+
+### Options
+
+```
+      -- string     
+  -h, --help        help for invoices-get
+      --id string   Invoice ID.
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen customer-portal invoices-list
+
+List the authenticated customer's invoices
+
+```
+revkeen customer-portal invoices-list [flags]
+```
+
+### Options
+
+```
+      -- string                 
+      --ending_before string    Cursor — return results created after the row with this ID.
+  -h, --help                    help for invoices-list
+      --limit int               Maximum number of results to return (1-100, default 20).
+      --starting_after string   Cursor — return results created before the row with this ID.
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen customer-portal mandates-cancel
+
+Cancel a Direct Debit mandate
+
+```
+revkeen customer-portal mandates-cancel [flags]
+```
+
+### Options
+
+```
+      --climate-data string   
+  -h, --help                  help for mandates-cancel
+      --id string             Mandate ID
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen customer-portal mandates-list
+
+List the authenticated customer's Direct Debit mandates
+
+```
+revkeen customer-portal mandates-list [flags]
+```
+
+### Options
+
+```
+      -- string   
+  -h, --help      help for mandates-list
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen customer-portal mandates-reauthorize
+
+Re-authorise a Direct Debit mandate with new bank details
+
+```
+revkeen customer-portal mandates-reauthorize [flags]
+```
+
+### Options
+
+```
+      --climate-data string   
+  -h, --help                  help for mandates-reauthorize
+      --id string             ID of the mandate being amended.
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen customer-portal mandates-reauthorize-send-otp
+
+Send a step-up OTP for a Direct Debit bank-detail change
+
+```
+revkeen customer-portal mandates-reauthorize-send-otp [flags]
+```
+
+### Options
+
+```
+      -- string     
+  -h, --help        help for mandates-reauthorize-send-otp
+      --id string   
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen customer-portal mandates-reauthorize-verify-otp
+
+Verify a step-up OTP and receive a change-of-bank token
+
+```
+revkeen customer-portal mandates-reauthorize-verify-otp [flags]
+```
+
+### Options
+
+```
+      --climate-data string   
+  -h, --help                  help for mandates-reauthorize-verify-otp
+      --id string             
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen customer-portal sessions-create
+
+Create a customer-portal session
+
+```
+revkeen customer-portal sessions-create [flags]
+```
+
+### Options
+
+```
+      --climate-data string   
+  -h, --help                  help for sessions-create
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen customer-portal subscriptions-cancel
+
+Cancel a subscription
+
+```
+revkeen customer-portal subscriptions-cancel [flags]
+```
+
+### Options
+
+```
+      --climate-data string   
+  -h, --help                  help for subscriptions-cancel
+      --id string             Subscription ID to cancel.
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen customer-portal subscriptions-get
+
+Retrieve a subscription
+
+```
+revkeen customer-portal subscriptions-get [flags]
+```
+
+### Options
+
+```
+      -- string     
+  -h, --help        help for subscriptions-get
+      --id string   Subscription ID.
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen customer-portal subscriptions-list
+
+List the authenticated customer's subscriptions
+
+```
+revkeen customer-portal subscriptions-list [flags]
+```
+
+### Options
+
+```
+      -- string                 
+      --ending_before string    Cursor — return results created after the row with this ID.
+  -h, --help                    help for subscriptions-list
+      --limit int               Maximum number of results to return (1-100, default 20).
+      --starting_after string   Cursor — return results created before the row with this ID.
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen customers
+
+Operations on customers
+
+### Options
+
+```
+  -h, --help   help for customers
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen customers create
+
+Create a new customer
+
+```
+revkeen customers create [flags]
+```
+
+### Options
+
+```
+      --climate-data string   
+  -h, --help                  help for create
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen customers customer-state-get
+
+Get customer billing state
+
+```
+revkeen customers customer-state-get [flags]
+```
+
+### Options
+
+```
+      -- string     
+  -h, --help        help for customer-state-get
+      --id string   Customer UUID
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen customers get
+
+Get customer by ID
+
+```
+revkeen customers get [flags]
+```
+
+### Options
+
+```
+      -- string     
+  -h, --help        help for get
+      --id string   Customer UUID
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen customers help
+
+Help about any command
+
+### Synopsis
+
+Help provides help for any command in the application.
+Simply type customers help [path to command] for full details.
+
+```
+revkeen customers help [command] [flags]
+```
+
+### Options
+
+```
+  -h, --help   help for help
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen customers list
+
+List customers
+
+```
+revkeen customers list [flags]
+```
+
+### Options
+
+```
+      -- string         
+  -h, --help            help for list
+      --limit int       Maximum number of results (1-100)
+      --offset int      Number of results to skip
+      --search string   Search term to filter customers
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen customers payment-methods-list
+
+Get customer payment methods
+
+```
+revkeen customers payment-methods-list [flags]
+```
+
+### Options
+
+```
+      -- string     
+  -h, --help        help for payment-methods-list
+      --id string   Customer UUID
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen customers payment-rails-get
+
+Get customer payment rail availability
+
+```
+revkeen customers payment-rails-get [flags]
+```
+
+### Options
+
+```
+      -- string             
+  -h, --help                help for payment-rails-get
+      --id string           Customer UUID
+      --invoice_id string   Optional invoice context used to apply invoice-level rail restrictions.
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen customers preferred-rails-get
+
+Get preferred payment rails
+
+```
+revkeen customers preferred-rails-get [flags]
+```
+
+### Options
+
+```
+      -- string             
+      --amount int          Optional amount in minor units. Use amount_minor for the explicit alias.
+      --amount_minor int    Optional amount in minor units. Overrides invoice total for margin-aware ranking.
+  -h, --help                help for preferred-rails-get
+      --id string           Customer UUID
+      --invoice_id string   Optional invoice context used to apply invoice-level rail restrictions and amount.
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen customers update
+
+Update customer details
+
+```
+revkeen customers update [flags]
+```
+
+### Options
+
+```
+      --climate-data string   
+  -h, --help                  help for update
+      --id string             Customer UUID
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen dashboard
+
+Open the interactive terminal dashboard
+
+### Synopsis
+
+Launch a Bubble Tea dashboard for customers, invoices, subscriptions, cart, and doctor.
+
+```
+revkeen dashboard [flags]
+```
+
+### Options
+
+```
+  -h, --help   help for dashboard
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen dd
+
+Operations on dd
+
+### Options
+
+```
+  -h, --help   help for dd
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen dd help
+
+Help about any command
+
+### Synopsis
+
+Help provides help for any command in the application.
+Simply type dd help [path to command] for full details.
+
+```
+revkeen dd help [command] [flags]
+```
+
+### Options
+
+```
+  -h, --help   help for help
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen dd mandate-requests-get
+
+Look up a pending signed mandate request
+
+```
+revkeen dd mandate-requests-get [flags]
+```
+
+### Options
+
+```
+      -- string        
+  -h, --help           help for mandate-requests-get
+      --token string   Signed mandate-request token from the emailed link
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen dd preview
+
+Preview the Direct Debit collection date chain
+
+```
+revkeen dd preview [flags]
+```
+
+### Options
+
+```
+      --Idempotency-Key string   Stable caller-owned key for this logical mutation. Reuse only with an identical request.
+      --climate-data string      
+  -h, --help                     help for preview
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen dd validate
+
+Validate a UK bank account for Direct Debit
+
+```
+revkeen dd validate [flags]
+```
+
+### Options
+
+```
+      --Idempotency-Key string   Stable caller-owned key for this logical mutation. Reuse only with an identical request.
+      --climate-data string      
+  -h, --help                     help for validate
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen doctor
+
+Health-check a RevKeen Cart integration
+
+```
+revkeen doctor [flags]
+```
+
+### Examples
+
+```
+  revkeen doctor
+  revkeen doctor --project-path ./storefront --json
+```
+
+### Options
+
+```
+  -h, --help                  help for doctor
+      --project-path string   Project directory to inspect (default ".")
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen entitlements
+
+Operations on entitlements
+
+### Options
+
+```
+  -h, --help   help for entitlements
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen entitlements check
+
+Check entitlement access
+
+```
+revkeen entitlements check [flags]
+```
+
+### Options
+
+```
+      -- string              
+      --benefit_key string   Benefit key to check
+      --customer_id string   Customer UUID (required)
+  -h, --help                 help for check
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen entitlements help
+
+Help about any command
+
+### Synopsis
+
+Help provides help for any command in the application.
+Simply type entitlements help [path to command] for full details.
+
+```
+revkeen entitlements help [command] [flags]
+```
+
+### Options
+
+```
+  -h, --help   help for help
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen entitlements list
+
+List entitlements
+
+```
+revkeen entitlements list [flags]
+```
+
+### Options
+
+```
+      -- string               
+      --benefit_type string   Filter by benefit type
+      --category string       Filter by category
+      --customer_id string    Customer UUID (required)
+  -h, --help                  help for list
+      --include_expired       Include expired entitlements
+      --limit int             Maximum results (1-100)
+      --offset int            Results to skip
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen events
+
+Operations on events
+
+### Options
+
+```
+  -h, --help   help for events
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen events get
+
+Retrieve an event
+
+```
+revkeen events get [flags]
+```
+
+### Options
+
+```
+      -- string     
+  -h, --help        help for get
+      --id string   Event ID
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen events help
+
+Help about any command
+
+### Synopsis
+
+Help provides help for any command in the application.
+Simply type events help [path to command] for full details.
+
+```
+revkeen events help [command] [flags]
+```
+
+### Options
+
+```
+  -h, --help   help for help
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen events list
+
+List events
+
+```
+revkeen events list [flags]
+```
+
+### Options
+
+```
+      -- string                  
+      --created_gte float        Filter by created_at >= (Unix timestamp)
+      --created_lte float        Filter by created_at <= (Unix timestamp)
+      --customer_id string       Filter by customer ID
+      --ending_before string     Cursor for pagination - return results before this event ID
+  -h, --help                     help for list
+      --invoice_id string        Filter by invoice ID
+      --limit int                Maximum number of results (1-100)
+      --order_id string          Filter by order ID
+      --starting_after string    Cursor for pagination - return results after this event ID
+      --subscription_id string   Filter by subscription ID
+      --type string              Filter by event type (e.g., invoice.paid)
+      --types string             Filter by multiple event types (comma-separated)
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen events resend
+
+Resend webhook for an event
+
+```
+revkeen events resend [flags]
+```
+
+### Options
+
+```
+      -- string     
+  -h, --help        help for resend
+      --id string   Event ID
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen help
+
+Help about any command
+
+### Synopsis
+
+Help provides help for any command in the application.
+Simply type revkeen help [path to command] for full details.
+
+```
+revkeen help [command] [flags]
+```
+
+### Options
+
+```
+  -h, --help   help for help
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen integrations
+
+Operations on integrations
+
+### Options
+
+```
+  -h, --help   help for integrations
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen integrations accounting-invoice-payment-requests-create
+
+Create an accounting-led invoice payment request
+
+```
+revkeen integrations accounting-invoice-payment-requests-create [flags]
+```
+
+### Options
+
+```
+      --climate-data string   
+  -h, --help                  help for accounting-invoice-payment-requests-create
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen integrations accounting-invoice-payment-requests-get
+
+Get an accounting-led invoice payment request
+
+```
+revkeen integrations accounting-invoice-payment-requests-get [flags]
+```
+
+### Options
+
+```
+      -- string     
+  -h, --help        help for accounting-invoice-payment-requests-get
+      --id string   
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen integrations help
+
+Help about any command
+
+### Synopsis
+
+Help provides help for any command in the application.
+Simply type integrations help [path to command] for full details.
+
+```
+revkeen integrations help [command] [flags]
+```
+
+### Options
+
+```
+  -h, --help   help for help
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen invoice-line-items
+
+Operations on invoice-line-items
+
+### Options
+
+```
+  -h, --help   help for invoice-line-items
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen invoice-line-items help
+
+Help about any command
+
+### Synopsis
+
+Help provides help for any command in the application.
+Simply type invoice-line-items help [path to command] for full details.
+
+```
+revkeen invoice-line-items help [command] [flags]
+```
+
+### Options
+
+```
+  -h, --help   help for help
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen invoice-line-items list-usage-events
+
+List usage events for an invoice line
+
+```
+revkeen invoice-line-items list-usage-events [flags]
+```
+
+### Options
+
+```
+      -- string                   
+  -h, --help                      help for list-usage-events
+      --id string                 Invoice line item ID
+      --include_excluded string   When true, also return excluded-but-considered decisions for the line period
+      --limit string              Max billed entries to return (default 50, max 100)
+      --starting_after string     Cursor: return entries with id greater than this value
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen invoices
+
+Operations on invoices
+
+### Options
+
+```
+  -h, --help   help for invoices
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen invoices create
+
+Create invoice
+
+```
+revkeen invoices create [flags]
+```
+
+### Options
+
+```
+      --Idempotency-Key string   Stable caller-owned key for this logical mutation. Reuse only with an identical request.
+      --climate-data string      Invoice creation details
+  -h, --help                     help for create
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen invoices finalize
+
+Finalize an invoice
+
+```
+revkeen invoices finalize [flags]
+```
+
+### Options
+
+```
+      --Idempotency-Key string   Stable caller-owned key for this logical mutation. Reuse only with an identical request.
+      --climate-data string      Finalization options
+  -h, --help                     help for finalize
+      --id string                
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen invoices get
+
+Get invoice
+
+```
+revkeen invoices get [flags]
+```
+
+### Options
+
+```
+      -- string     
+  -h, --help        help for get
+      --id string   
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen invoices help
+
+Help about any command
+
+### Synopsis
+
+Help provides help for any command in the application.
+Simply type invoices help [path to command] for full details.
+
+```
+revkeen invoices help [command] [flags]
+```
+
+### Options
+
+```
+  -h, --help   help for help
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen invoices invoice-usage-explain
+
+Explain invoice usage charges
+
+```
+revkeen invoices invoice-usage-explain [flags]
+```
+
+### Options
+
+```
+      -- string     
+  -h, --help        help for invoice-usage-explain
+      --id string   Invoice UUID
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen invoices list
+
+List invoices
+
+```
+revkeen invoices list [flags]
+```
+
+### Options
+
+```
+      -- string             
+      --customerId string   Filter by customer ID
+  -h, --help                help for list
+      --limit int           Maximum number of results (1-100)
+      --offset int          Number of results to skip
+      --status string       Filter by invoice status
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen invoices margin-estimate
+
+Estimate invoice net by payment rail
+
+```
+revkeen invoices margin-estimate [flags]
+```
+
+### Options
+
+```
+      --Idempotency-Key string   Stable caller-owned key for this logical mutation. Reuse only with an identical request.
+      --climate-data string      Margin estimate inputs
+  -h, --help                     help for margin-estimate
+      --id string                Invoice ID.
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen invoices send
+
+Send an invoice
+
+```
+revkeen invoices send [flags]
+```
+
+### Options
+
+```
+      --Idempotency-Key string   Stable caller-owned key for this logical mutation. Reuse only with an identical request.
+      --climate-data string      Send options
+  -h, --help                     help for send
+      --id string                
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen invoices update
+
+Update invoice
+
+```
+revkeen invoices update [flags]
+```
+
+### Options
+
+```
+      --Idempotency-Key string   Stable caller-owned key for this logical mutation. Reuse only with an identical request.
+      --climate-data string      Invoice update details
+  -h, --help                     help for update
+      --id string                
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen invoices void
+
+Void an invoice
+
+```
+revkeen invoices void [flags]
+```
+
+### Options
+
+```
+      --Idempotency-Key string   Stable caller-owned key for this logical mutation. Reuse only with an identical request.
+      --climate-data string      Void details
+  -h, --help                     help for void
+      --id string                
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen listen
+
+Forward RevKeen webhook events to a local URL
+
+### Synopsis
+
+Connect to RevKeen and forward webhook events to your local server.
+
+Requires authentication (revkeen login or REVKEEN_API_KEY). Prints a
+session signing secret you can use to verify X-Revkeen-Signature locally.
+
+Also available as: revkeen webhooks listen
+
+```
+revkeen listen [flags]
+```
+
+### Examples
+
+```
+  revkeen listen --forward-to http://localhost:3000/webhooks
+  revkeen listen --forward-to http://127.0.0.1:4242/hooks --events invoice.paid,payment.succeeded
+  revkeen trigger payment.succeeded
+```
+
+### Options
+
+```
+      --events strings      Comma-separated event types to receive (default: all)
+      --forward-to string   Local URL to forward events to (required)
+  -h, --help                help for listen
+      --skip-verify         Reserved for future TLS options (no-op)
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen login
+
+Authenticate with RevKeen
+
+### Synopsis
+
+Authenticate with RevKeen.
+
+Default (interactive): OAuth authorization-code + PKCE with a local
+127.0.0.1 callback — opens the browser for sign-in and consent.
+
+Alternatives:
+  --device       OAuth device grant (SSH / Codespaces / headless)
+  --api-key      Secret API key (rk_live_* / rk_sandbox_*)
+  --with-token   Read a bearer token or API key from stdin / REVKEEN_ACCESS_TOKEN
+
+API keys and environment variables remain fully supported.
+
+```
+revkeen login [flags]
+```
+
+### Examples
+
+```
+  # PKCE browser login (default)
+  revkeen login
+  revkeen auth login
+
+  # Device flow (SSH / no browser automation)
+  revkeen login --device
+  revkeen login --device --no-browser
+
+  # API key
+  revkeen login --api-key
+
+  # Token from env or stdin
+  REVKEEN_ACCESS_TOKEN=rkoa_... revkeen login --with-token
+  echo 'rk_live_...' | revkeen login --with-token
+```
+
+### Options
+
+```
+      --api-key      Log in with an API key
+      --device       Use OAuth device authorization grant (RFC 8628)
+  -h, --help         help for login
+      --no-browser   Print the authorize/verification URL instead of opening a browser
+      --with-token   Read bearer token or API key from REVKEEN_ACCESS_TOKEN or stdin
+```
+
+### Options inherited from parent commands
+
+```
+      --agent           Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --json            Shorthand for --output json (pretty-printed)
+      --no-color        Disable color output
+  -o, --output string   Output format: table, json, yaml, csv (default "table")
+      --table           Shorthand for --output table
+```
+
+
+---
+
+## revkeen mandates
+
+Operations on mandates
+
+### Options
+
+```
+  -h, --help   help for mandates
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen mandates cancel
+
+Cancel a Direct Debit mandate
+
+```
+revkeen mandates cancel [flags]
+```
+
+### Options
+
+```
+      --Idempotency-Key string   Stable caller-owned key for this logical mutation. Reuse only with an identical request.
+      --climate-data string      
+  -h, --help                     help for cancel
+      --id string                Mandate ID
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen mandates create
+
+Create a Direct Debit mandate
+
+```
+revkeen mandates create [flags]
+```
+
+### Options
+
+```
+      --Idempotency-Key string   Required stable key for this logical mandate submission. Reuse the same key only with an identical request.
+      --climate-data string      
+  -h, --help                     help for create
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen mandates get
+
+Retrieve a Direct Debit mandate
+
+```
+revkeen mandates get [flags]
+```
+
+### Options
+
+```
+      -- string     
+  -h, --help        help for get
+      --id string   Mandate ID
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen mandates help
+
+Help about any command
+
+### Synopsis
+
+Help provides help for any command in the application.
+Simply type mandates help [path to command] for full details.
+
+```
+revkeen mandates help [command] [flags]
+```
+
+### Options
+
+```
+  -h, --help   help for help
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen mandates list
+
+List Direct Debit mandates
+
+```
+revkeen mandates list [flags]
+```
+
+### Options
+
+```
+      -- string             
+      --customerId string   Filter mandates by customer
+  -h, --help                help for list
+      --status string       Filter mandates by status (e.g. active, suspended, cancelled)
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen mandates reinstate
+
+Reinstate a suspended Direct Debit mandate
+
+```
+revkeen mandates reinstate [flags]
+```
+
+### Options
+
+```
+      --Idempotency-Key string   Stable caller-owned key for this logical mutation. Reuse only with an identical request.
+      --climate-data string      
+  -h, --help                     help for reinstate
+      --id string                Mandate ID
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen mandates schedule-collection
+
+Schedule a one-off Direct Debit collection
+
+```
+revkeen mandates schedule-collection [flags]
+```
+
+### Options
+
+```
+      --Idempotency-Key string   Stable caller-owned key for this logical mutation. Reuse only with an identical request.
+      --climate-data string      
+  -h, --help                     help for schedule-collection
+      --id string                Mandate ID
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen mandates suspend
+
+Suspend a Direct Debit mandate
+
+```
+revkeen mandates suspend [flags]
+```
+
+### Options
+
+```
+      --Idempotency-Key string   Stable caller-owned key for this logical mutation. Reuse only with an identical request.
+      --climate-data string      
+  -h, --help                     help for suspend
+      --id string                Mandate ID
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen meters
+
+Operations on meters
+
+### Options
+
+```
+  -h, --help   help for meters
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen meters create
+
+Create a meter
+
+```
+revkeen meters create [flags]
+```
+
+### Options
+
+```
+      --climate-data string   
+  -h, --help                  help for create
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen meters get
+
+Get a meter
+
+```
+revkeen meters get [flags]
+```
+
+### Options
+
+```
+      -- string     
+  -h, --help        help for get
+      --id string   Meter ID
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen meters help
+
+Help about any command
+
+### Synopsis
+
+Help provides help for any command in the application.
+Simply type meters help [path to command] for full details.
+
+```
+revkeen meters help [command] [flags]
+```
+
+### Options
+
+```
+  -h, --help   help for help
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen meters list
+
+List meters
+
+```
+revkeen meters list [flags]
+```
+
+### Options
+
+```
+      -- string                   
+  -h, --help                      help for list
+      --include_archived string   Include archived meters
+      --limit string              Max results (default 50, max 100)
+      --offset string             Pagination offset
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen meters quantities
+
+Get meter quantities
+
+```
+revkeen meters quantities [flags]
+```
+
+### Options
+
+```
+      -- string                       
+      --customer_id string            Filter by customer ID
+      --end_timestamp string          End timestamp (ISO 8601, UTC)
+      --external_customer_id string   Filter by the merchant's external customer ID
+  -h, --help                          help for quantities
+      --id string                     Meter ID
+      --interval string               Bucket width. UTC date_trunc semantics; week is ISO (Monday).
+      --start_timestamp string        Start timestamp (ISO 8601, UTC)
+      --subscription_id string        Filter by subscription ID
+      --timezone string               Only UTC is supported. Omit or pass UTC.
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen meters update
+
+Update a meter
+
+```
+revkeen meters update [flags]
+```
+
+### Options
+
+```
+      --climate-data string   
+  -h, --help                  help for update
+      --id string             Meter ID
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen payment-intents
+
+Operations on payment-intents
+
+### Options
+
+```
+  -h, --help   help for payment-intents
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen payment-intents cancel
+
+Cancel a payment intent
+
+```
+revkeen payment-intents cancel [flags]
+```
+
+### Options
+
+```
+      --Idempotency-Key string   Stable caller-owned key for this logical mutation. Reuse only with an identical request.
+      --climate-data string      
+  -h, --help                     help for cancel
+      --id string                Payment intent ID (pi_xxx)
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen payment-intents capture
+
+Capture a payment intent
+
+```
+revkeen payment-intents capture [flags]
+```
+
+### Options
+
+```
+      --Idempotency-Key string   Stable caller-owned key for this logical mutation. Reuse only with an identical request.
+      --climate-data string      
+  -h, --help                     help for capture
+      --id string                Payment intent ID (pi_xxx)
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen payment-intents confirm
+
+Confirm a payment intent
+
+```
+revkeen payment-intents confirm [flags]
+```
+
+### Options
+
+```
+      --Idempotency-Key string   Stable caller-owned key for this logical mutation. Reuse only with an identical request.
+      --climate-data string      
+  -h, --help                     help for confirm
+      --id string                Payment intent ID (pi_xxx)
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen payment-intents create
+
+Create a payment intent
+
+```
+revkeen payment-intents create [flags]
+```
+
+### Options
+
+```
+      --Idempotency-Key string   Stable caller-owned key for this logical mutation. Reuse only with an identical request.
+      --climate-data string      
+  -h, --help                     help for create
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen payment-intents get
+
+Retrieve a payment intent
+
+```
+revkeen payment-intents get [flags]
+```
+
+### Options
+
+```
+      -- string     
+  -h, --help        help for get
+      --id string   Payment intent ID (pi_xxx)
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen payment-intents help
+
+Help about any command
+
+### Synopsis
+
+Help provides help for any command in the application.
+Simply type payment-intents help [path to command] for full details.
+
+```
+revkeen payment-intents help [command] [flags]
+```
+
+### Options
+
+```
+  -h, --help   help for help
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen payment-intents list
+
+List payment intents
+
+```
+revkeen payment-intents list [flags]
+```
+
+### Options
+
+```
+      -- string                 
+      --created_gte float       Filter by created_at >= (Unix timestamp)
+      --created_lte float       Filter by created_at <= (Unix timestamp)
+      --customer string         Filter by customer ID
+      --ending_before string    Cursor for pagination - return results before this ID (pi_xxx)
+  -h, --help                    help for list
+      --limit int               Maximum number of results (1-100)
+      --starting_after string   Cursor for pagination - return results after this ID (pi_xxx)
+      --status string           Filter by status
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen payment-links
+
+Operations on payment-links
+
+### Options
+
+```
+  -h, --help   help for payment-links
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen payment-links activate
+
+Activate a payment link (deprecated)
+
+```
+revkeen payment-links activate [flags]
+```
+
+### Options
+
+```
+      -- string                  
+      --Idempotency-Key string   Stable caller-owned key for this logical mutation. Reuse only with an identical request.
+  -h, --help                     help for activate
+      --id string                Payment link UUID or public_id
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen payment-links archive
+
+Archive a payment link (deprecated)
+
+```
+revkeen payment-links archive [flags]
+```
+
+### Options
+
+```
+      -- string                  
+      --Idempotency-Key string   Stable caller-owned key for this logical mutation. Reuse only with an identical request.
+  -h, --help                     help for archive
+      --id string                Payment link UUID or public_id
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen payment-links create
+
+Create a new payment link
+
+```
+revkeen payment-links create [flags]
+```
+
+### Options
+
+```
+      --Idempotency-Key string   Stable caller-owned key for this logical mutation. Reuse only with an identical request.
+      --climate-data string      
+  -h, --help                     help for create
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen payment-links deactivate
+
+Deactivate a payment link (deprecated)
+
+```
+revkeen payment-links deactivate [flags]
+```
+
+### Options
+
+```
+      -- string                  
+      --Idempotency-Key string   Stable caller-owned key for this logical mutation. Reuse only with an identical request.
+  -h, --help                     help for deactivate
+      --id string                Payment link UUID or public_id
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen payment-links expire
+
+Expire a payment link (deprecated)
+
+```
+revkeen payment-links expire [flags]
+```
+
+### Options
+
+```
+      --Idempotency-Key string   Stable caller-owned key for this logical mutation. Reuse only with an identical request.
+      --climate-data string      
+  -h, --help                     help for expire
+      --id string                Payment link UUID or public_id
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen payment-links get
+
+Get payment link by ID
+
+```
+revkeen payment-links get [flags]
+```
+
+### Options
+
+```
+      -- string     
+  -h, --help        help for get
+      --id string   Payment link UUID or public_id
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen payment-links help
+
+Help about any command
+
+### Synopsis
+
+Help provides help for any command in the application.
+Simply type payment-links help [path to command] for full details.
+
+```
+revkeen payment-links help [command] [flags]
+```
+
+### Options
+
+```
+  -h, --help   help for help
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen payment-links list
+
+List payment links
+
+```
+revkeen payment-links list [flags]
+```
+
+### Options
+
+```
+      -- string         
+  -h, --help            help for list
+      --limit int       
+      --mode string     
+      --offset int      
+      --search string   
+      --status string   
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen payment-links update
+
+Update payment link status
+
+```
+revkeen payment-links update [flags]
+```
+
+### Options
+
+```
+      --Idempotency-Key string   Stable caller-owned key for this logical mutation. Reuse only with an identical request.
+      --climate-data string      
+  -h, --help                     help for update
+      --id string                Payment link UUID or public_id
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen prices
+
+Operations on prices
+
+### Options
+
+```
+  -h, --help   help for prices
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen prices archive
+
+Archive a price
+
+```
+revkeen prices archive [flags]
+```
+
+### Options
+
+```
+      -- string     
+  -h, --help        help for archive
+      --id string   Price ID
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen prices create
+
+Create a price
+
+```
+revkeen prices create [flags]
+```
+
+### Options
+
+```
+      --climate-data string   Price creation details
+  -h, --help                  help for create
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen prices get
+
+Retrieve a price
+
+```
+revkeen prices get [flags]
+```
+
+### Options
+
+```
+      -- string     
+  -h, --help        help for get
+      --id string   Price ID
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen prices help
+
+Help about any command
+
+### Synopsis
+
+Help provides help for any command in the application.
+Simply type prices help [path to command] for full details.
+
+```
+revkeen prices help [command] [flags]
+```
+
+### Options
+
+```
+  -h, --help   help for help
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen prices list
+
+List prices
+
+```
+revkeen prices list [flags]
+```
+
+### Options
+
+```
+      -- string                 
+      --active string           Filter by active status
+      --currency string         Filter by currency
+      --ending_before string    Cursor for pagination (ID to end before)
+  -h, --help                    help for list
+      --limit int               Number of results (1-100)
+      --lookup_key string       Filter by lookup key
+      --pricing_model string    Filter by pricing model
+      --product_id string       Filter by product ID
+      --starting_after string   Cursor for pagination (ID to start after)
+      --type string             Filter by price type
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen prices update
+
+Update a price
+
+```
+revkeen prices update [flags]
+```
+
+### Options
+
+```
+      --climate-data string   Price update details
+  -h, --help                  help for update
+      --id string             Price ID
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen product-collections
+
+Operations on product-collections
+
+### Options
+
+```
+  -h, --help   help for product-collections
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen product-collections create
+
+Create a product collection
+
+```
+revkeen product-collections create [flags]
+```
+
+### Options
+
+```
+      --climate-data string   
+  -h, --help                  help for create
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen product-collections delete
+
+Delete a product collection
+
+```
+revkeen product-collections delete [flags]
+```
+
+### Options
+
+```
+      -- string     
+  -h, --help        help for delete
+      --id string   
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen product-collections get
+
+Get a product collection
+
+```
+revkeen product-collections get [flags]
+```
+
+### Options
+
+```
+      -- string     
+  -h, --help        help for get
+      --id string   Collection id or URL handle.
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen product-collections help
+
+Help about any command
+
+### Synopsis
+
+Help provides help for any command in the application.
+Simply type product-collections help [path to command] for full details.
+
+```
+revkeen product-collections help [command] [flags]
+```
+
+### Options
+
+```
+  -h, --help   help for help
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen product-collections list
+
+List product collections
+
+```
+revkeen product-collections list [flags]
+```
+
+### Options
+
+```
+      -- string   
+  -h, --help      help for list
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen product-collections update
+
+Update a product collection
+
+```
+revkeen product-collections update [flags]
+```
+
+### Options
+
+```
+      --climate-data string   
+  -h, --help                  help for update
+      --id string             
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen products
+
+Operations on products
+
+### Options
+
+```
+  -h, --help   help for products
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen products create
+
+Create product
+
+```
+revkeen products create [flags]
+```
+
+### Options
+
+```
+      --climate-data string   Product creation details
+  -h, --help                  help for create
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen products get
+
+Get product by ID
+
+```
+revkeen products get [flags]
+```
+
+### Options
+
+```
+      -- string     
+  -h, --help        help for get
+      --id string   
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen products help
+
+Help about any command
+
+### Synopsis
+
+Help provides help for any command in the application.
+Simply type products help [path to command] for full details.
+
+```
+revkeen products help [command] [flags]
+```
+
+### Options
+
+```
+  -h, --help   help for help
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen products list
+
+List products
+
+```
+revkeen products list [flags]
+```
+
+### Options
+
+```
+      -- string         
+  -h, --help            help for list
+      --limit int       Maximum number of results (1-100)
+      --page int        Page number
+      --search string   Search term to filter products
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen products update
+
+Update product
+
+```
+revkeen products update [flags]
+```
+
+### Options
+
+```
+      --climate-data string   Product update details
+  -h, --help                  help for update
+      --id string             
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen refunds
+
+Operations on refunds
+
+### Options
+
+```
+  -h, --help   help for refunds
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen refunds create
+
+Create a refund
+
+```
+revkeen refunds create [flags]
+```
+
+### Options
+
+```
+      --Idempotency-Key string   Stable caller-owned key for this logical mutation. Reuse only with an identical request.
+      --climate-data string      
+  -h, --help                     help for create
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen refunds get
+
+Get refund by ID
+
+```
+revkeen refunds get [flags]
+```
+
+### Options
+
+```
+      -- string     
+  -h, --help        help for get
+      --id string   Refund public ID (ref_xxx) or UUID
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen refunds help
+
+Help about any command
+
+### Synopsis
+
+Help provides help for any command in the application.
+Simply type refunds help [path to command] for full details.
+
+```
+revkeen refunds help [command] [flags]
+```
+
+### Options
+
+```
+  -h, --help   help for help
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen refunds list
+
+List refunds
+
+```
+revkeen refunds list [flags]
+```
+
+### Options
+
+```
+      -- string                 
+      --created_after string    ISO 8601 date - only refunds created after this date
+      --created_before string   ISO 8601 date - only refunds created before this date
+      --gateway string          Filter by payment gateway (nmi, stripe, etc.)
+  -h, --help                    help for list
+      --limit float             Number of results to return (1-100)
+      --offset float            Number of results to skip
+      --payment_id string       Filter by original payment ID
+      --reason string           Filter by refund reason
+      --status string           Filter by refund status
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen storefront
+
+Operations on storefront
+
+### Options
+
+```
+  -h, --help   help for storefront
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen storefront help
+
+Help about any command
+
+### Synopsis
+
+Help provides help for any command in the application.
+Simply type storefront help [path to command] for full details.
+
+```
+revkeen storefront help [command] [flags]
+```
+
+### Options
+
+```
+  -h, --help   help for help
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen storefront origins-create
+
+Register a storefront origin
+
+```
+revkeen storefront origins-create [flags]
+```
+
+### Options
+
+```
+      --climate-data string   
+  -h, --help                  help for origins-create
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen storefront origins-delete
+
+Remove a storefront origin
+
+```
+revkeen storefront origins-delete [flags]
+```
+
+### Options
+
+```
+      -- string           
+  -h, --help              help for origins-delete
+      --originId string   Storefront origin id.
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen storefront origins-list
+
+List storefront origins
+
+```
+revkeen storefront origins-list [flags]
+```
+
+### Options
+
+```
+      -- string   
+  -h, --help      help for origins-list
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen storefront products-get
+
+Get a storefront product
+
+```
+revkeen storefront products-get [flags]
+```
+
+### Options
+
+```
+      -- string            
+  -h, --help               help for products-get
+      --productId string   Product UUID, merchant product reference, or slug.
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen storefront products-list
+
+List storefront products
+
+```
+revkeen storefront products-list [flags]
+```
+
+### Options
+
+```
+      -- string             
+      --collection string   Only products in this product collection (id or URL handle).
+  -h, --help                help for products-list
+      --limit int           Maximum products to return (default 50, max 100).
+      --offset int          Products to skip, for pagination.
+      --search string       Case-insensitive match on product name or description.
+      --sort string         featured (collection order, else newest), newest, name, price_asc or price_desc.
+      --tag string          Only products carrying this tag.
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen storefront status-get
+
+Get storefront integration status
+
+```
+revkeen storefront status-get [flags]
+```
+
+### Options
+
+```
+      -- string   
+  -h, --help      help for status-get
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen subscriptions
+
+Operations on subscriptions
+
+### Options
+
+```
+  -h, --help   help for subscriptions
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen subscriptions cancel
+
+Cancel subscription
+
+```
+revkeen subscriptions cancel [flags]
+```
+
+### Options
+
+```
+      --Idempotency-Key string   Stable caller-owned key for this logical mutation. Reuse only with an identical request.
+      --climate-data string      
+  -h, --help                     help for cancel
+      --id string                Subscription UUID
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen subscriptions create
+
+Create a new subscription
+
+```
+revkeen subscriptions create [flags]
+```
+
+### Options
+
+```
+      --Idempotency-Key string   Stable caller-owned key for this logical mutation. Reuse only with an identical request.
+      --climate-data string      
+  -h, --help                     help for create
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen subscriptions get
+
+Get subscription by ID
+
+```
+revkeen subscriptions get [flags]
+```
+
+### Options
+
+```
+      -- string     
+  -h, --help        help for get
+      --id string   Subscription UUID
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen subscriptions help
+
+Help about any command
+
+### Synopsis
+
+Help provides help for any command in the application.
+Simply type subscriptions help [path to command] for full details.
+
+```
+revkeen subscriptions help [command] [flags]
+```
+
+### Options
+
+```
+  -h, --help   help for help
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen subscriptions list
+
+List subscriptions
+
+```
+revkeen subscriptions list [flags]
+```
+
+### Options
+
+```
+      -- string             
+      --customerId string   Filter by customer UUID
+  -h, --help                help for list
+      --limit int           Maximum number of results (1-100)
+      --page int            Page number
+      --status string       Filter by subscription status
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen subscriptions update
+
+Update subscription details
+
+```
+revkeen subscriptions update [flags]
+```
+
+### Options
+
+```
+      --Idempotency-Key string   Stable caller-owned key for this logical mutation. Reuse only with an identical request.
+      --climate-data string      
+  -h, --help                     help for update
+      --id string                Subscription UUID
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen terminal
+
+Manage POS terminal devices
+
+### Options
+
+```
+  -h, --help   help for terminal
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen terminal help
+
+Help about any command
+
+### Synopsis
+
+Help provides help for any command in the application.
+Simply type terminal help [path to command] for full details.
+
+```
+revkeen terminal help [command] [flags]
+```
+
+### Options
+
+```
+  -h, --help   help for help
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen terminal pair
+
+Pair a POS terminal device
+
+### Synopsis
+
+Initiate the device pairing flow for a PAX A920 Pro terminal.
+
+```
+revkeen terminal pair [flags]
+```
+
+### Examples
+
+```
+  revkeen terminal pair --serial PAX123456
+```
+
+### Options
+
+```
+  -h, --help            help for pair
+      --serial string   Terminal serial number (required)
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen terminal pay
+
+Initiate a payment on a terminal
+
+```
+revkeen terminal pay [amount] [flags]
+```
+
+### Examples
+
+```
+  revkeen terminal pay 50.00 --terminal PAX123456
+```
+
+### Options
+
+```
+  -h, --help              help for pay
+      --terminal string   Terminal ID or serial number (required)
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen terminal status
+
+Show status of connected terminals
+
+```
+revkeen terminal status [flags]
+```
+
+### Options
+
+```
+  -h, --help   help for status
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen transactions
+
+Operations on transactions
+
+### Options
+
+```
+  -h, --help   help for transactions
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen transactions get
+
+Get transaction by ID
+
+```
+revkeen transactions get [flags]
+```
+
+### Options
+
+```
+      -- string     
+  -h, --help        help for get
+      --id string   Transaction UUID
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen transactions help
+
+Help about any command
+
+### Synopsis
+
+Help provides help for any command in the application.
+Simply type transactions help [path to command] for full details.
+
+```
+revkeen transactions help [command] [flags]
+```
+
+### Options
+
+```
+  -h, --help   help for help
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen transactions list
+
+List transactions
+
+```
+revkeen transactions list [flags]
+```
+
+### Options
+
+```
+      -- string                 
+      --created_gte float       Filter by created_at >= (Unix timestamp)
+      --created_lte float       Filter by created_at <= (Unix timestamp)
+      --customer_id string      Filter by customer ID
+      --ending_before string    Cursor for pagination - return results before this ID
+  -h, --help                    help for list
+      --invoice_id string       Filter by invoice ID
+      --limit int               Maximum number of results (1-100)
+      --starting_after string   Cursor for pagination - return results after this ID
+      --status string           Filter by status
+      --type string             Filter by transaction type
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen trigger
+
+Send a test webhook event to active CLI listen sessions
+
+### Synopsis
+
+Publish a fixture event to merchants with an active revkeen listen session.
+
+Does not create billing side effects — fixtures go to CLI listeners only.
+Examples: payment.succeeded, invoice.paid, customer.created
+
+```
+revkeen trigger [event_type] [flags]
+```
+
+### Examples
+
+```
+  revkeen trigger payment.succeeded
+  revkeen trigger invoice.paid
+```
+
+### Options
+
+```
+  -h, --help   help for trigger
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen usage
+
+Operations on usage
+
+### Options
+
+```
+  -h, --help   help for usage
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen usage balance-get
+
+Get current usage balance
+
+```
+revkeen usage balance-get [flags]
+```
+
+### Options
+
+```
+      -- string                       
+      --customer_id string            Filter to a specific customer by RevKeen ID
+      --external_customer_id string   Filter to a customer by your external identifier
+  -h, --help                          help for balance-get
+      --meter_id string               Filter to a single meter
+      --subscription_id string        Filter to a specific subscription
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen usage help
+
+Help about any command
+
+### Synopsis
+
+Help provides help for any command in the application.
+Simply type usage help [path to command] for full details.
+
+```
+revkeen usage help [command] [flags]
+```
+
+### Options
+
+```
+  -h, --help   help for help
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen usage-events
+
+Operations on usage-events
+
+### Options
+
+```
+  -h, --help   help for usage-events
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen usage-events get
+
+Get a usage event
+
+```
+revkeen usage-events get [flags]
+```
+
+### Options
+
+```
+      -- string     
+  -h, --help        help for get
+      --id string   Usage event ID
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen usage-events help
+
+Help about any command
+
+### Synopsis
+
+Help provides help for any command in the application.
+Simply type usage-events help [path to command] for full details.
+
+```
+revkeen usage-events help [command] [flags]
+```
+
+### Options
+
+```
+  -h, --help   help for help
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen usage-events ingest
+
+Ingest usage events
+
+```
+revkeen usage-events ingest [flags]
+```
+
+### Options
+
+```
+      --Idempotency-Key string   Stable caller-owned key for this logical mutation. Reuse only with an identical request.
+      --climate-data string      
+  -h, --help                     help for ingest
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen usage-events list
+
+Query usage events
+
+```
+revkeen usage-events list [flags]
+```
+
+### Options
+
+```
+      -- string                       
+      --customer_id string            Filter by customer ID
+      --end_time string               End of time range (ISO 8601)
+      --external_customer_id string   Filter by external customer ID
+  -h, --help                          help for list
+      --limit string                  Max results (default 100, max 100)
+      --meter_id string               Filter by meter ID
+      --start_time string             Start of time range (ISO 8601)
+      --subscription_id string        Filter by subscription ID
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen webhook-deliveries
+
+Operations on webhook-deliveries
+
+### Options
+
+```
+  -h, --help   help for webhook-deliveries
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen webhook-deliveries get
+
+Retrieve a webhook delivery
+
+```
+revkeen webhook-deliveries get [flags]
+```
+
+### Options
+
+```
+      -- string     
+  -h, --help        help for get
+      --id string   Webhook delivery ID
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen webhook-deliveries help
+
+Help about any command
+
+### Synopsis
+
+Help provides help for any command in the application.
+Simply type webhook-deliveries help [path to command] for full details.
+
+```
+revkeen webhook-deliveries help [command] [flags]
+```
+
+### Options
+
+```
+  -h, --help   help for help
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen webhook-deliveries list
+
+List webhook deliveries
+
+```
+revkeen webhook-deliveries list [flags]
+```
+
+### Options
+
+```
+      -- string                 
+      --ending_before string    Cursor — return deliveries created after the row with this ID.
+      --endpoint_id string      Filter by webhook endpoint ID
+      --event_id string         Filter by source event ID
+  -h, --help                    help for list
+      --limit int               Maximum number of deliveries to return (1-100, default 20).
+      --starting_after string   Cursor — return deliveries created before the row with this ID.
+      --status string           Filter by delivery status
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen webhook-deliveries retry
+
+Retry a webhook delivery
+
+```
+revkeen webhook-deliveries retry [flags]
+```
+
+### Options
+
+```
+      -- string     
+  -h, --help        help for retry
+      --id string   Webhook delivery ID
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen webhook-endpoints
+
+Operations on webhook-endpoints
+
+### Options
+
+```
+  -h, --help   help for webhook-endpoints
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen webhook-endpoints create
+
+Create webhook endpoint
+
+```
+revkeen webhook-endpoints create [flags]
+```
+
+### Options
+
+```
+      --climate-data string   
+  -h, --help                  help for create
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen webhook-endpoints delete
+
+Delete webhook endpoint
+
+```
+revkeen webhook-endpoints delete [flags]
+```
+
+### Options
+
+```
+      -- string     
+  -h, --help        help for delete
+      --id string   Webhook endpoint ID
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen webhook-endpoints get
+
+Get webhook endpoint
+
+```
+revkeen webhook-endpoints get [flags]
+```
+
+### Options
+
+```
+      -- string     
+  -h, --help        help for get
+      --id string   Webhook endpoint ID
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen webhook-endpoints help
+
+Help about any command
+
+### Synopsis
+
+Help provides help for any command in the application.
+Simply type webhook-endpoints help [path to command] for full details.
+
+```
+revkeen webhook-endpoints help [command] [flags]
+```
+
+### Options
+
+```
+  -h, --help   help for help
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen webhook-endpoints list
+
+List webhook endpoints
+
+```
+revkeen webhook-endpoints list [flags]
+```
+
+### Options
+
+```
+      -- string         
+  -h, --help            help for list
+      --limit int       Maximum number of results to return (1-100, default 20)
+      --offset int      Number of results to skip for pagination
+      --status string   Filter by endpoint status
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen webhook-endpoints rotate-secret
+
+Rotate signing secret
+
+```
+revkeen webhook-endpoints rotate-secret [flags]
+```
+
+### Options
+
+```
+      -- string     
+  -h, --help        help for rotate-secret
+      --id string   Webhook endpoint ID
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen webhook-endpoints update
+
+Update webhook endpoint
+
+```
+revkeen webhook-endpoints update [flags]
+```
+
+### Options
+
+```
+      --climate-data string   
+  -h, --help                  help for update
+      --id string             Webhook endpoint ID
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen webhooks
+
+Work with RevKeen webhooks
+
+### Options
+
+```
+  -h, --help   help for webhooks
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen webhooks help
+
+Help about any command
+
+### Synopsis
+
+Help provides help for any command in the application.
+Simply type webhooks help [path to command] for full details.
+
+```
+revkeen webhooks help [command] [flags]
+```
+
+### Options
+
+```
+  -h, --help   help for help
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen webhooks list
+
+List registered webhook endpoints
+
+```
+revkeen webhooks list [flags]
+```
+
+### Options
+
+```
+  -h, --help   help for list
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
+## revkeen webhooks listen
+
+Forward webhook events to a local URL (alias of revkeen listen)
+
+### Synopsis
+
+Connect to RevKeen and forward webhook events to your local server.
+
+Requires authentication (revkeen login or REVKEEN_API_KEY). Prints a
+session signing secret you can use to verify X-Revkeen-Signature locally.
+
+Also available as: revkeen webhooks listen
+
+```
+revkeen webhooks listen [flags]
+```
+
+### Examples
+
+```
+  revkeen listen --forward-to http://localhost:3000/webhooks
+  revkeen listen --forward-to http://127.0.0.1:4242/hooks --events invoice.paid,payment.succeeded
+  revkeen trigger payment.succeeded
+```
+
+### Options
+
+```
+      --events strings      Comma-separated event types to receive (default: all)
+      --forward-to string   Local URL to forward events to (required)
+  -h, --help                help for listen
+      --skip-verify         Reserved for future TLS options (no-op)
+```
+
+### Options inherited from parent commands
+
+```
+      --agent            Machine-readable mode: compact JSON, no color, errors as JSON to stderr
+      --api-key string   Override API key (or set REVKEEN_API_KEY)
+      --json             Shorthand for --output json (pretty-printed)
+      --no-color         Disable color output
+  -o, --output string    Output format: table, json, yaml, csv (default "table")
+      --table            Shorthand for --output table
+```
+
+
+---
+
