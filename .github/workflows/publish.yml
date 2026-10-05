@@ -1,0 +1,215 @@
+name: Publish CLI npm wrapper
+
+# Template for RevKeen/cli (REV-9106). Copy to .github/workflows/ in that
+# repository. Release branches (cli-release/v<version>) are prepared by
+# .github/workflows/cli-release.yml in the private monorepo after GoReleaser
+# has published the binaries on this repository's v<version> GitHub release.
+# Merging one into main publishes @revkeen/cli-binary from ./npm with npm
+# provenance through trusted publishing. No npm token exists.
+#
+# The release is detected from the tree (.revkeen-release.json and
+# npm/package.json against the registry), not from a commit subject, so it
+# works whichever merge method the owner uses.
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: cli-npm-publish
+  cancel-in-progress: false
+
+jobs:
+  plan:
+    name: Validate and plan the release
+    runs-on: ubuntu-24.04
+    outputs:
+      release: ${{ steps.plan.outputs.release }}
+      version: ${{ steps.plan.outputs.version }}
+      tag: ${{ steps.plan.outputs.tag }}
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24
+
+      - name: Enforce credential isolation
+        shell: bash
+        run: |
+          set -euo pipefail
+          WORKFLOW=.github/workflows/publish.yml
+          if grep -Eq '\$\{\{[[:space:]]*secrets\.' "$WORKFLOW"; then
+            echo "::error::Publishing must not reference repository secrets; it uses npm trusted publishing."
+            exit 1
+          fi
+          if grep -Eq '^[[:space:]]+(NPM_TOKEN|NODE_AUTH_TOKEN):' "$WORKFLOW"; then
+            echo "::error::Publishing must not declare registry credential variables."
+            exit 1
+          fi
+          if grep -Eq '^[[:space:]]+workflow_dispatch:' "$WORKFLOW"; then
+            echo "::error::Out-of-band workflow_dispatch publishing is forbidden."
+            exit 1
+          fi
+
+      - name: Plan the release
+        id: plan
+        shell: bash
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          HEAD_REF: ${{ github.head_ref }}
+        run: |
+          set -euo pipefail
+          # Only release candidates (and main, after one merges) are checked.
+          if [ "$EVENT_NAME" = "pull_request" ] && [[ "$HEAD_REF" != cli-release/v* ]]; then
+            echo "release=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          if [ ! -f .revkeen-release.json ] || [ ! -f npm/package.json ]; then
+            if [ "$EVENT_NAME" = "pull_request" ]; then
+              echo "::error::A cli-release/v* candidate must carry .revkeen-release.json and npm/package.json."
+              exit 1
+            fi
+            echo "release=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          node --input-type=module <<'NODE'
+          import fs from "node:fs";
+          const manifest = JSON.parse(fs.readFileSync(".revkeen-release.json", "utf8"));
+          const pkg = JSON.parse(fs.readFileSync("npm/package.json", "utf8"));
+          const fail = (m) => { console.error(`::error::${m}`); process.exit(1); };
+          if (manifest.schemaVersion !== 1) fail("Unsupported .revkeen-release.json schema");
+          if (manifest.package !== "@revkeen/cli-binary" || pkg.name !== "@revkeen/cli-binary") fail("Release manifest must name @revkeen/cli-binary");
+          if (manifest.version !== pkg.version) fail(`Manifest version ${manifest.version} does not match npm/package.json ${pkg.version}`);
+          if (manifest.source?.repository !== "RevKeen/revkeen") fail("Release manifest source repository mismatch");
+          if (!/^[0-9a-f]{40}$/.test(manifest.source?.sha || "")) fail("Release manifest source SHA is invalid");
+          if (pkg.private) fail("npm/package.json is private");
+          // npm rejects provenance unless the package names the repository it is published from.
+          const url = String(pkg.repository?.url ?? "").replace(/^git\+/, "").toLowerCase();
+          if (url !== "https://github.com/revkeen/cli.git" || pkg.repository?.directory !== "npm") {
+            fail("npm/package.json repository must be https://github.com/RevKeen/cli.git with directory npm, or npm rejects provenance");
+          }
+          if (process.env.HEAD_REF && process.env.HEAD_REF !== `cli-release/v${pkg.version}`) {
+            fail(`Candidate branch must be cli-release/v${pkg.version}`);
+          }
+          NODE
+
+          VERSION=$(node -p "require('./npm/package.json').version")
+          set +e
+          OUTPUT=$(npm view "@revkeen/cli-binary@${VERSION}" version 2>&1)
+          STATUS=$?
+          set -e
+          if [ "$STATUS" -eq 0 ] && [ -n "$OUTPUT" ]; then
+            if [ "$EVENT_NAME" = "pull_request" ]; then
+              echo "::error::@revkeen/cli-binary@${VERSION} is already on npm. Cut a new version."
+              exit 1
+            fi
+            echo "@revkeen/cli-binary@${VERSION} is already published; nothing to do."
+            echo "release=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          if [ "$STATUS" -ne 0 ] && ! grep -q "E404" <<< "$OUTPUT"; then
+            echo "$OUTPUT"
+            echo "::error::Could not prove that the npm version is unused."
+            exit 1
+          fi
+
+          # Prereleases must not claim "latest", or a bare
+          # `npm i -g @revkeen/cli-binary` would install one.
+          if [[ "$VERSION" == *-* ]]; then TAG=next; else TAG=latest; fi
+          echo "release=true" >> "$GITHUB_OUTPUT"
+          echo "version=${VERSION}" >> "$GITHUB_OUTPUT"
+          echo "tag=${TAG}" >> "$GITHUB_OUTPUT"
+          echo "## Will publish on merge" >> "$GITHUB_STEP_SUMMARY"
+          echo "- \`@revkeen/cli-binary@${VERSION}\` (dist-tag \`${TAG}\`)" >> "$GITHUB_STEP_SUMMARY"
+
+      # The wrapper must ship NO platform binary: install.js downloads the right
+      # one at postinstall and skips when bin/<name> already exists, so a packed
+      # binary would be served to every platform sharing its filename.
+      - name: Assert the tarball ships no platform binary
+        if: steps.plan.outputs.release == 'true'
+        shell: bash
+        run: |
+          set -euo pipefail
+          npm pack --dry-run --json ./npm > "$RUNNER_TEMP/pack.json"
+          node -e '
+            const packed = JSON.parse(require("fs").readFileSync(process.env.RUNNER_TEMP + "/pack.json", "utf8"));
+            const files = packed[0].files.map((f) => f.path);
+            const allowed = new Set(["bin/LICENSE", "bin/README.md"]);
+            const extra = files.filter((p) => p.startsWith("bin/") && !allowed.has(p));
+            if (extra.length > 0) {
+              console.error("::error::Refusing to publish: tarball contains " + extra.join(", "));
+              process.exit(1);
+            }
+            console.log("ok: " + files.length + " packed files, none of them a binary");
+          '
+
+      # install.js downloads revkeen_<os>_<arch>.{tar.gz,zip} from the
+      # v<version> release at postinstall. Publishing before those exist would
+      # ship a package that cannot install.
+      - name: Require the release binaries install.js downloads
+        if: steps.plan.outputs.release == 'true'
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VERSION: ${{ steps.plan.outputs.version }}
+        run: |
+          set -euo pipefail
+          assets=$(gh release view "v${VERSION}" --repo "$GITHUB_REPOSITORY" --json assets --jq '.assets[].name')
+          missing=0
+          for name in revkeen_darwin_amd64.tar.gz revkeen_darwin_arm64.tar.gz revkeen_linux_amd64.tar.gz revkeen_linux_arm64.tar.gz revkeen_windows_amd64.zip; do
+            if ! grep -qx "$name" <<< "$assets"; then
+              echo "::error::v${VERSION} release is missing ${name}"
+              missing=1
+            fi
+          done
+          exit "$missing"
+
+  publish:
+    name: Publish with provenance
+    needs: plan
+    if: github.event_name == 'push' && needs.plan.outputs.release == 'true'
+    runs-on: ubuntu-24.04
+    environment: npm-release
+    permissions:
+      contents: write
+      id-token: write
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          registry-url: "https://registry.npmjs.org"
+
+      - name: Require npm with trusted publishing
+        shell: bash
+        run: |
+          NPM_VERSION=$(npm --version)
+          IFS=. read -r MAJOR MINOR _ <<< "$NPM_VERSION"
+          if [ "$MAJOR" -lt 11 ] || { [ "$MAJOR" -eq 11 ] && [ "$MINOR" -lt 5 ]; }; then
+            npm install -g npm@^11.5.1
+          fi
+
+      - name: Publish through npm trusted publishing
+        env:
+          TAG: ${{ needs.plan.outputs.tag }}
+        run: npm publish ./npm --provenance --access public --tag "$TAG"
+
+      # GoReleaser created v<version> on the commit main pointed at when the
+      # binaries were built; point it at the reviewed source that was published.
+      - name: Point the release tag at the published source
+        env:
+          VERSION: ${{ needs.plan.outputs.version }}
+        run: |
+          set -euo pipefail
+          git config user.name "RevKeen Bot"
+          git config user.email "bot@revkeen.com"
+          git tag -f "v${VERSION}" "$GITHUB_SHA"
+          git push -f origin "refs/tags/v${VERSION}"
