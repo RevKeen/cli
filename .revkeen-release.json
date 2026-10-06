@@ -1,10 +1,10 @@
 {
   "schemaVersion": 1,
   "package": "@revkeen/cli-binary",
-  "version": "0.3.1-rc.1",
+  "version": "0.3.1",
   "source": {
     "repository": "RevKeen/revkeen",
-    "sha": "7bc0b1656ca23497173f1971bf234db7e9ded348",
-    "tag": "cli/v0.3.1-rc.1"
+    "sha": "6b0498cb229eaa8085a63eccbd6f4705c5fe86cf",
+    "tag": "cli/v0.3.1"
   }
 }
