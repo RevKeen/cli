@@ -1,0 +1,44 @@
+{
+  "name": "@revkeen/cli-binary",
+  "version": "0.3.1-rc.1",
+  "description": "RevKeen CLI — manage payments, subscriptions & billing from your terminal",
+  "bin": {
+    "revkeen": "run.js"
+  },
+  "scripts": {
+    "postinstall": "node install.js"
+  },
+  "files": [
+    "install.js",
+    "run.js",
+    "bin/LICENSE",
+    "bin/README.md"
+  ],
+  "os": [
+    "darwin",
+    "linux",
+    "win32"
+  ],
+  "cpu": [
+    "x64",
+    "arm64"
+  ],
+  "engines": {
+    "node": ">=16"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/RevKeen/cli.git",
+    "directory": "npm"
+  },
+  "homepage": "https://revkeen.com",
+  "keywords": [
+    "revkeen",
+    "cli",
+    "billing",
+    "payments",
+    "subscriptions",
+    "invoices"
+  ],
+  "license": "MIT"
+}

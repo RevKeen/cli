@@ -3,10 +3,10 @@
   "info": {
     "title": "RevKeen API",
     "version": "2026-05-01",
-    "description": "RevKeen is a fintech-grade API for payments, subscriptions, invoices, and billing. The canonical production MCP server is available at `https://mcp.revkeen.com/mcp`.\n\n**API Version:** `2026-05-01` — Pin with the `RevKeen-Version` header.\n\n**Quick Links:** [Full Documentation](https://docs.revkeen.com) | [Authentication](https://docs.revkeen.com/authentication) | [OAuth](https://docs.revkeen.com/oauth) | [SDKs](https://docs.revkeen.com/sdks) | [Webhooks](#webhooks) | [MCP Guide](https://docs.revkeen.com/mcp)\n\n## Authentication\n\nTwo authentication methods are supported:\n\n### API Keys (recommended for server-to-server REST API integrations)\n\nSend your merchant API key in the `x-api-key` header, or as `Authorization: Bearer <key>` — both are accepted. Create and manage keys in the [Dashboard](https://app.revkeen.com/dashboard/settings/general?tab=developer). Use `rk_sandbox_*` for staging/test and `rk_live_*` for production. Keys are scoped, rollable, IP-lockable and revocable; the raw secret is shown once, at creation.\n\n### OAuth 2.1 (recommended for MCP and third-party integrations)\n\nUse OAuth 2.1 with PKCE for authorization code flow or client credentials for server-to-server. Access tokens are opaque, prefixed `rkoa_`, and sent via `Authorization: Bearer rkoa_*`. See the [OAuth guide](https://docs.revkeen.com/oauth) for setup.\n\n- **Authorization Code + PKCE** — user-facing integrations, MCP hosts\n- **Client Credentials** — server-to-server, automated workflows\n- **Dynamic Client Registration** — MCP hosts that auto-register\n\n## MCP Integration\n\nRevKeen's canonical production MCP server is `https://mcp.revkeen.com/mcp` using Streamable HTTP and OAuth 2.1 bearer tokens.\n\n- **Customer launch surface** — read-first customer v1 tools with least-privilege scopes\n- **Host setup guide** — see the [MCP guide](https://docs.revkeen.com/mcp) for ChatGPT, Claude, and compatible MCP hosts\n\n## API Key Scopes\n\nScopes follow `{resource}:{action}` format (e.g., `invoices:read`, `customers:*`). See [full scope reference](https://docs.revkeen.com/authentication#scopes).\n\n| Category | Scope | Description |\n|----------|-------|-------------|\n| **Payments & Checkout** | `checkout:read` | View checkout session details |\n|  | `checkout:write` | Create and manage checkout sessions |\n|  | `cart:read` | View cart session details (REV-3511) |\n|  | `cart:write` | Create and mutate cart sessions, line items, add-ons (REV-3511) |\n|  | `payment_links:read` | View payment links |\n|  | `payment_links:write` | Create and manage payment links |\n|  | `charges:read` | View one-time charges |\n|  | `charges:write` | Create one-time charges for customers |\n|  | `payments:read` | View payment details |\n|  | `payments:write` | Capture or void payments |\n|  | `payment_intents:read` | View payment intent details |\n|  | `payment_intents:write` | Create, confirm, capture, and cancel payment intents |\n|  | `setup_intents:read` | View setup intent details |\n|  | `setup_intents:write` | Create, confirm, and cancel setup intents |\n|  | `payment_methods:read` | View saved payment methods |\n|  | `payment_methods:write` | Attach and detach payment methods |\n| **Billing** | `invoices:read` | View invoices |\n|  | `invoices:write` | Create, update, and manage invoices |\n|  | `subscriptions:read` | View subscriptions |\n|  | `subscriptions:write` | Create, update, pause, and cancel subscriptions |\n|  | `subscription_schedules:read` | View subscription schedule details |\n|  | `subscription_schedules:write` | Create, update, cancel, and release subscription schedules |\n|  | `orders:read` | View orders |\n|  | `orders:write` | Create and manage orders |\n|  | `credit_notes:read` | View credit notes |\n|  | `credit_notes:write` | Create and void credit notes |\n| **Products & Pricing** | `products:read` | View product catalog |\n|  | `products:write` | Create and update products |\n|  | `prices:read` | View pricing information |\n|  | `prices:write` | Create and update prices |\n|  | `discounts:read` | View discount codes |\n|  | `discounts:write` | Create and manage discount codes |\n|  | `tax_rates:read` | View tax rate configurations |\n|  | `tax_rates:write` | Configure tax rates |\n| **Usage & Metering** | `meters:read` | View meter configurations |\n|  | `meters:write` | Create and update meters |\n|  | `usage:read` | View usage events and balances |\n|  | `usage:write` | Ingest usage events |\n| **Customers** | `customers:read` | View customer information |\n|  | `customers:write` | Create and update customers |\n|  | `entitlements:read` | View customer entitlements / feature access |\n|  | `entitlements:write` | Grant and revoke customer entitlements |\n|  | `businesses:read` | View business entities |\n|  | `businesses:write` | Manage business entities |\n| **Money Movement** | `refunds:read` | View refund details |\n|  | `refunds:write` | Issue refunds |\n|  | `voids:read` | View voided transactions |\n|  | `voids:write` | Void unsettled transactions |\n|  | `disputes:read` | View chargebacks and disputes |\n|  | `disputes:write` | Respond to disputes |\n|  | `payouts:read` | View payout and settlement data |\n| **Direct Debit** | `mandates:read` | View Direct Debit mandates and collection status |\n|  | `mandates:write` | Create, suspend, reinstate, and cancel Direct Debit mandates |\n| **Terminal** | `terminal:read` | View terminal devices and card-present payments |\n|  | `terminal:write` | Initiate, cancel, refund, and void terminal payments |\n| **Data Exchange** | `exports:read` | View and download data exports |\n|  | `exports:write` | Create data exports |\n|  | `imports:read` | View import status and history |\n|  | `imports:write` | Upload and run data imports |\n| **Analytics & Reporting** | `analytics:read` | View analytics and reports |\n|  | `finance:read` | View financial reports |\n| **Communication** | `comms:read` | View SMS and email delivery logs |\n|  | `comms:write` | Send SMS, email, and WhatsApp messages |\n|  | `automations:read` | View automations, runs, approvals, and traces |\n|  | `automations:write` | Create automations and trigger runs |\n| **Integrations** | `apps:read` | View connected applications |\n|  | `apps:write` | Manage app connections |\n|  | `webhooks:read` | View webhook endpoints |\n|  | `webhooks:write` | Manage webhook endpoints |\n|  | `integrations:read` | View integration status and sync logs |\n|  | `integrations:write` | Activate, configure, and sync integrations |\n|  | `events:read` | View webhook event logs |\n|  | `events:write` | Resend and test webhook events |\n|  | `sync:read` | View sync watermarks and state |\n|  | `sync:write` | Update sync watermarks |\n\n## Errors\n\nEvery non-2xx response uses one envelope: `{ \"error\": { \"type\", \"code\", \"message\", ... } }`. Branch on `error.type` and `error.code`; treat `error.message` as display text only. Error bodies never echo the credential you presented.\n\n| Status | `error.type` | Notes |\n|--------|--------------|-------|\n| `400` | `invalid_request_error` | Schema validation failed. `details.fields` maps each rejected parameter to its reasons. |\n| `401` | `authentication_error` | Missing, invalid, expired or revoked credential. Always carries `WWW-Authenticate: Bearer realm=\"revkeen-api\"`. |\n| `402` | `card_error` | Declined by the issuer or processor; see `decline_code`. |\n| `403` | `authorization_error` | The caller is identified but the action is denied — scope, IP allowlist, origin, or merchant mismatch. |\n| `409` | `invalid_request_error` or `idempotency_error` | Resource-state conflict, or an `Idempotency-Key` replayed with a different body. |\n| `429` | `rate_limit_error` | See Rate Limits below. |\n| `500` | `api_error` | Retry with exponential backoff, quoting `error.request_id`. |\n\n`401` codes: `authentication_failed`, `invalid_api_key`, `expired_api_key`, `api_key_revoked`, `session_invalid`, `merchant_required`.\n\n`403` codes: `insufficient_permissions`, `forbidden`, `ip_not_allowed`, `tenant_scope_mismatch`, `no_organization`, `no_merchant`, `merchant_mismatch`, `cart_disabled`, `origin_not_allowed`, `verification_required`, `read_only_impersonation_blocked`, `publishable_key_restricted`, `internal_only`.\n\n## Environments\n\n| Environment | Base URL | API Key Prefix |\n|-------------|----------|----------------|\n| **Staging** | `https://staging-api.revkeen.com/v2` | `rk_sandbox_*` |\n| **Production** | `https://api.revkeen.com/v2` | `rk_live_*` |\n\n## Idempotency\n\nInclude `Idempotency-Key` header (UUID) on mutation requests. Keys are valid for 24 hours.\n\n## Rate Limits\n\n| Plan | Requests/min | Burst |\n|------|-------------|-------|\n| **Staging** | 100 | 200 |\n| **Production** | 1000 | 2000 |\n| **Enterprise** | Custom | Custom |\n\nA rate-limited request returns `429` with `type: rate_limit_error`, `code: rate_limit_exceeded` and `details.retry_after` in whole seconds.\n\n| Header | Meaning |\n|--------|---------|\n| `Retry-After` | Whole seconds to wait before retrying. Present on every `429`. |\n| `X-RateLimit-Limit` | Requests permitted in the current window, when the limiter publishes one. |\n| `X-RateLimit-Remaining` | Requests left in the current window. |\n| `X-RateLimit-Reset` | UNIX timestamp in **seconds** at which the window resets. |\n",
+    "description": "RevKeen is a fintech-grade API for payments, subscriptions, invoices, and billing. The canonical production MCP server is available at `https://mcp.revkeen.com/mcp`.\n\n**API Version:** `2026-05-01` — Pin with the `RevKeen-Version` header.\n\n**Quick Links:** [Full Documentation](https://docs.revkeen.com) | [Authentication](https://docs.revkeen.com/authentication) | [OAuth](https://docs.revkeen.com/oauth) | [SDKs](https://docs.revkeen.com/sdks) | [Webhooks](#webhooks) | [MCP Guide](https://docs.revkeen.com/mcp)\n\n## Authentication\n\nTwo authentication methods are supported:\n\n### API Keys (recommended for server-to-server REST API integrations)\n\nSend your merchant API key in the `x-api-key` header, or as `Authorization: Bearer <key>` — both are accepted. Create and manage keys in the [Dashboard](https://app.revkeen.com/dashboard/settings/general?tab=developer). Use `rk_sandbox_*` for staging/test and `rk_live_*` for production. Keys are scoped, rollable, IP-lockable and revocable; the raw secret is shown once, at creation.\n\n### OAuth 2.1 (recommended for MCP and third-party integrations)\n\nUse OAuth 2.1 with PKCE for authorization code flow or client credentials for server-to-server. Access tokens are opaque, prefixed `rkoa_`, and sent via `Authorization: Bearer rkoa_*`. See the [OAuth guide](https://docs.revkeen.com/oauth) for setup.\n\n- **Authorization Code + PKCE** — user-facing integrations, MCP hosts\n- **Client Credentials** — server-to-server, automated workflows\n- **Dynamic Client Registration** — MCP hosts that auto-register\n\n## MCP Integration\n\nRevKeen's canonical production MCP server is `https://mcp.revkeen.com/mcp` using Streamable HTTP and OAuth 2.1 bearer tokens.\n\n- **Customer launch surface** — read-first customer v1 tools with least-privilege scopes\n- **Host setup guide** — see the [MCP guide](https://docs.revkeen.com/mcp) for ChatGPT, Claude, and compatible MCP hosts\n\n## API Key Scopes\n\nScopes follow `{resource}:{action}` format (e.g., `invoices:read`, `customers:*`). See [full scope reference](https://docs.revkeen.com/authentication#scopes).\n\n| Category | Scope | Description |\n|----------|-------|-------------|\n| **Payments & Checkout** | `checkout:read` | View checkout session details |\n|  | `checkout:write` | Create and manage checkout sessions |\n|  | `cart:read` | View cart session details |\n|  | `cart:write` | Create and mutate cart sessions, line items, add-ons |\n|  | `payment_links:read` | View payment links |\n|  | `payment_links:write` | Create and manage payment links |\n|  | `charges:read` | View one-time charges |\n|  | `charges:write` | Create one-time charges for customers |\n|  | `payments:read` | View payment details |\n|  | `payments:write` | Capture or void payments |\n|  | `payment_intents:read` | View payment intent details |\n|  | `payment_intents:write` | Create, confirm, capture, and cancel payment intents |\n|  | `setup_intents:read` | View setup intent details |\n|  | `setup_intents:write` | Create, confirm, and cancel setup intents |\n|  | `payment_methods:read` | View saved payment methods |\n|  | `payment_methods:write` | Attach and detach payment methods |\n| **Billing** | `invoices:read` | View invoices |\n|  | `invoices:write` | Create, update, and manage invoices |\n|  | `subscriptions:read` | View subscriptions |\n|  | `subscriptions:write` | Create, update, pause, and cancel subscriptions |\n|  | `subscription_schedules:read` | View subscription schedule details |\n|  | `subscription_schedules:write` | Create, update, cancel, and release subscription schedules |\n|  | `orders:read` | View orders |\n|  | `orders:write` | Create and manage orders |\n|  | `credit_notes:read` | View credit notes |\n|  | `credit_notes:write` | Create and void credit notes |\n| **Products & Pricing** | `products:read` | View product catalog |\n|  | `products:write` | Create and update products |\n|  | `prices:read` | View pricing information |\n|  | `prices:write` | Create and update prices |\n|  | `discounts:read` | View discount codes |\n|  | `discounts:write` | Create and manage discount codes |\n|  | `tax_rates:read` | View tax rate configurations |\n|  | `tax_rates:write` | Configure tax rates |\n| **Usage & Metering** | `meters:read` | View meter configurations |\n|  | `meters:write` | Create and update meters |\n|  | `usage:read` | View usage events and balances |\n|  | `usage:write` | Ingest usage events |\n| **Customers** | `customers:read` | View customer information |\n|  | `customers:write` | Create and update customers |\n|  | `entitlements:read` | View customer entitlements / feature access |\n|  | `entitlements:write` | Grant and revoke customer entitlements |\n|  | `businesses:read` | View business entities |\n|  | `businesses:write` | Manage business entities |\n| **Money Movement** | `refunds:read` | View refund details |\n|  | `refunds:write` | Issue refunds |\n|  | `voids:read` | View voided transactions |\n|  | `voids:write` | Void unsettled transactions |\n|  | `disputes:read` | View chargebacks and disputes |\n|  | `disputes:write` | Respond to disputes |\n|  | `payouts:read` | View payout and settlement data |\n| **Direct Debit** | `mandates:read` | View Direct Debit mandates and collection status |\n|  | `mandates:write` | Create, suspend, reinstate, and cancel Direct Debit mandates |\n| **Terminal** | `terminal:read` | View terminal devices and card-present payments |\n|  | `terminal:write` | Initiate, cancel, refund, and void terminal payments |\n| **Data Exchange** | `exports:read` | View and download data exports |\n|  | `exports:write` | Create data exports |\n|  | `imports:read` | View import status and history |\n|  | `imports:write` | Upload and run data imports |\n| **Analytics & Reporting** | `analytics:read` | View analytics and reports |\n|  | `finance:read` | View financial reports |\n| **Communication** | `comms:read` | View SMS and email delivery logs |\n|  | `comms:write` | Send SMS, email, and WhatsApp messages |\n|  | `automations:read` | View automations, runs, approvals, and traces |\n|  | `automations:write` | Create automations and trigger runs |\n| **Integrations** | `apps:read` | View connected applications |\n|  | `apps:write` | Manage app connections |\n|  | `webhooks:read` | View webhook endpoints |\n|  | `webhooks:write` | Manage webhook endpoints |\n|  | `integrations:read` | View integration status and sync logs |\n|  | `integrations:write` | Activate, configure, and sync integrations |\n|  | `events:read` | View webhook event logs |\n|  | `events:write` | Resend and test webhook events |\n|  | `sync:read` | View sync watermarks and state |\n|  | `sync:write` | Update sync watermarks |\n\n## Errors\n\nEvery non-2xx response uses one envelope: `{ \"error\": { \"type\", \"code\", \"message\", ... } }`. Branch on `error.type` and `error.code`; treat `error.message` as display text only. Error bodies never echo the credential you presented.\n\n| Status | `error.type` | Notes |\n|--------|--------------|-------|\n| `400` | `invalid_request_error` | Schema validation failed. `details.fields` maps each rejected parameter to its reasons. |\n| `401` | `authentication_error` | Missing, invalid, expired or revoked credential. Always carries `WWW-Authenticate: Bearer realm=\"revkeen-api\"`. |\n| `402` | `card_error` | Declined by the issuer or processor; see `decline_code`. |\n| `403` | `authorization_error` | The caller is identified but the action is denied — scope, IP allowlist, origin, or merchant mismatch. |\n| `409` | `invalid_request_error` or `idempotency_error` | Resource-state conflict, or an `Idempotency-Key` replayed with a different body. |\n| `429` | `rate_limit_error` | See Rate Limits below. |\n| `500` | `api_error` | Retry with exponential backoff, quoting `error.request_id`. |\n\n`401` codes: `authentication_failed`, `invalid_api_key`, `expired_api_key`, `api_key_revoked`, `session_invalid`, `merchant_required`.\n\n`403` codes: `insufficient_permissions`, `forbidden`, `ip_not_allowed`, `tenant_scope_mismatch`, `no_organization`, `no_merchant`, `merchant_mismatch`, `cart_disabled`, `origin_not_allowed`, `verification_required`, `read_only_impersonation_blocked`, `publishable_key_restricted`, `internal_only`.\n\n## Environments\n\n| Environment | Base URL | API Key Prefix |\n|-------------|----------|----------------|\n| **Staging** | `https://staging-api.revkeen.com/v2` | `rk_sandbox_*` |\n| **Production** | `https://api.revkeen.com/v2` | `rk_live_*` |\n\n## Idempotency\n\nInclude `Idempotency-Key` header (UUID) on mutation requests. Keys are valid for 24 hours.\n\n## Rate Limits\n\n| Plan | Requests/min | Burst |\n|------|-------------|-------|\n| **Staging** | 100 | 200 |\n| **Production** | 1000 | 2000 |\n| **Enterprise** | Custom | Custom |\n\nA rate-limited request returns `429` with `type: rate_limit_error`, `code: rate_limit_exceeded` and `details.retry_after` in whole seconds.\n\n| Header | Meaning |\n|--------|---------|\n| `Retry-After` | Whole seconds to wait before retrying. Present on every `429`. |\n| `X-RateLimit-Limit` | Requests permitted in the current window, when the limiter publishes one. |\n| `X-RateLimit-Remaining` | Requests left in the current window. |\n| `X-RateLimit-Reset` | UNIX timestamp in **seconds** at which the window resets. |\n",
     "contact": {
       "name": "RevKeen Support",
-      "email": "info@revkeen.com",
+      "email": "support@revkeen.com",
       "url": "https://docs.revkeen.com"
     },
     "license": {
@@ -339,19 +339,19 @@
               "example": {
                 "id": "evt_4d5e6f7g8h9i",
                 "type": "invoice.paid",
-                "created": 1705689600,
+                "created": 1789914600,
                 "livemode": true,
                 "data": {
                   "object": {
                     "id": "inv_abc123",
                     "object": "invoice",
                     "customer_id": "cus_xyz789",
-                    "invoice_number": "INV-2025-0042",
+                    "invoice_number": "INV-2026-0042",
                     "total_minor": 9900,
-                    "currency": "usd",
+                    "currency": "gbp",
                     "status": "paid",
-                    "due_date": "2025-02-19T00:00:00Z",
-                    "paid_at": "2025-01-20T14:30:00Z"
+                    "due_date": "2026-10-19T00:00:00Z",
+                    "paid_at": "2026-09-20T14:30:00Z"
                   }
                 }
               }
@@ -869,7 +869,7 @@
     },
     "credit_note.created": {
       "post": {
-        "operationId": "webhooks_creditNote_created",
+        "operationId": "webhooks_credit_note_created",
         "summary": "Credit note created",
         "description": "Sent when a credit note is created for an invoice.",
         "tags": [
@@ -2645,8 +2645,8 @@
             "scopes": {
               "checkout:read": "View checkout session details",
               "checkout:write": "Create and manage checkout sessions",
-              "cart:read": "View cart session details (REV-3511)",
-              "cart:write": "Create and mutate cart sessions, line items, add-ons (REV-3511)",
+              "cart:read": "View cart session details",
+              "cart:write": "Create and mutate cart sessions, line items, add-ons",
               "payment_links:read": "View payment links",
               "payment_links:write": "Create and manage payment links",
               "charges:read": "View one-time charges",
@@ -2725,8 +2725,8 @@
             "scopes": {
               "checkout:read": "View checkout session details",
               "checkout:write": "Create and manage checkout sessions",
-              "cart:read": "View cart session details (REV-3511)",
-              "cart:write": "Create and mutate cart sessions, line items, add-ons (REV-3511)",
+              "cart:read": "View cart session details",
+              "cart:write": "Create and mutate cart sessions, line items, add-ons",
               "payment_links:read": "View payment links",
               "payment_links:write": "Create and manage payment links",
               "charges:read": "View one-time charges",
@@ -4059,14 +4059,15 @@
           },
           "track_inventory": {
             "type": "boolean",
-            "description": "Whether a finite purchase cap is enforced"
+            "description": "Whether stock is tracked for this product (read from its availability record)"
           },
           "stock_quantity": {
             "type": [
               "integer",
               "null"
             ],
-            "description": "Remaining purchasable units (null when not tracked)",
+            "deprecated": true,
+            "description": "Deprecated, read-only view: units available to sell, computed from the product's availability record (null when not tracked).",
             "x-revkeen-explicit-nullable": true
           },
           "tags": {
@@ -4146,7 +4147,7 @@
               "string",
               "null"
             ],
-            "description": "URL-friendly slug",
+            "description": "URL handle, unique among this merchant's products",
             "x-revkeen-explicit-nullable": true
           },
           "is_active": {
@@ -4162,7 +4163,48 @@
               "string",
               "null"
             ],
-            "description": "Product image URL",
+            "description": "Main product image (storage key or URL)",
+            "x-revkeen-explicit-nullable": true
+          },
+          "images": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProductImageResponse"
+            },
+            "description": "Extra product images, in display order"
+          },
+          "seo_title": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Search and social title",
+            "x-revkeen-explicit-nullable": true
+          },
+          "seo_description": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Meta description",
+            "x-revkeen-explicit-nullable": true
+          },
+          "store_visibility": {
+            "type": "string",
+            "enum": [
+              "visible",
+              "hidden",
+              "scheduled"
+            ],
+            "description": "Whether the product is listed on the Storefront. hidden: only payment links and invoices. scheduled: listed from store_visible_from."
+          },
+          "store_visible_from": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "date-time",
+            "description": "When a scheduled product appears on the Storefront (ISO 8601)",
             "x-revkeen-explicit-nullable": true
           },
           "tax_behavior": {
@@ -4216,6 +4258,66 @@
           "updated_at"
         ],
         "description": "A product defines what you sell — the name, billing type, price, and fulfillment method. Products can be one-time, recurring (subscription), or usage-based."
+      },
+      "ProductImageResponse": {
+        "type": "object",
+        "properties": {
+          "key": {
+            "type": "string",
+            "description": "Storage key or https URL"
+          },
+          "asset_id": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Media library asset ID",
+            "x-revkeen-explicit-nullable": true
+          },
+          "alt": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Alt text",
+            "x-revkeen-explicit-nullable": true
+          },
+          "source": {
+            "type": "string",
+            "enum": [
+              "merchant",
+              "pexels",
+              "canva",
+              "gemini"
+            ],
+            "description": "Where the image came from"
+          },
+          "photographer": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Photographer credit",
+            "x-revkeen-explicit-nullable": true
+          },
+          "attribution_url": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Link for the credit",
+            "x-revkeen-explicit-nullable": true
+          }
+        },
+        "required": [
+          "key",
+          "asset_id",
+          "alt",
+          "source",
+          "photographer",
+          "attribution_url"
+        ],
+        "description": "One extra product image, in display order."
       },
       "Pagination": {
         "type": "object",
@@ -4356,7 +4458,53 @@
             "x-revkeen-explicit-nullable": true
           },
           "slug": {
-            "type": "string"
+            "type": "string",
+            "maxLength": 80,
+            "description": "URL handle, unique among this merchant's products. Normalised to lower-case letters, digits and hyphens. Derived from product_id when omitted."
+          },
+          "images": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProductImage"
+            },
+            "maxItems": 20,
+            "description": "Ordered extra images (at most 20). Replaces the list. The main image stays in image_url."
+          },
+          "seo_title": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "maxLength": 70,
+            "description": "Search and social title (at most 70 characters). Defaults to the name.",
+            "x-revkeen-explicit-nullable": true
+          },
+          "seo_description": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "maxLength": 320,
+            "description": "Meta description (at most 320 characters).",
+            "x-revkeen-explicit-nullable": true
+          },
+          "store_visibility": {
+            "type": "string",
+            "enum": [
+              "visible",
+              "hidden",
+              "scheduled"
+            ],
+            "description": "Whether the product is listed on the Storefront. hidden: only payment links and invoices. scheduled: listed from store_visible_from."
+          },
+          "store_visible_from": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "date-time",
+            "description": "When a scheduled product appears on the Storefront (ISO 8601). Required when store_visibility is scheduled.",
+            "x-revkeen-explicit-nullable": true
           },
           "fulfillment_type": {
             "type": "string",
@@ -4371,7 +4519,7 @@
           "track_inventory": {
             "type": "boolean",
             "default": false,
-            "description": "Enable a finite purchase cap that blocks purchase once stock reaches zero. One-time products only; requires stock_quantity."
+            "description": "Track stock for this product (one-time products only; requires stock_quantity). Stock is stored in the product's availability record, not on the product."
           },
           "stock_quantity": {
             "type": [
@@ -4379,7 +4527,8 @@
               "null"
             ],
             "minimum": 0,
-            "description": "Remaining units that can be purchased. Required (non-negative) when track_inventory is true; ignored otherwise.",
+            "deprecated": true,
+            "description": "Deprecated. Sets the units available to sell in the product's availability record. Required (non-negative) when track_inventory is true.",
             "x-revkeen-explicit-nullable": true
           },
           "tags": {
@@ -4461,6 +4610,67 @@
         ],
         "description": "Parameters for creating a new product, including name, billing type, and pricing."
       },
+      "ProductImage": {
+        "type": "object",
+        "properties": {
+          "key": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2048,
+            "description": "Storage key returned by the upload (product-images/<merchant>/...) or an https URL."
+          },
+          "asset_id": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "uuid",
+            "description": "Media library asset ID, when the image came from an upload.",
+            "x-revkeen-explicit-nullable": true
+          },
+          "alt": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "maxLength": 300,
+            "description": "Alt text for shoppers using screen readers.",
+            "x-revkeen-explicit-nullable": true
+          },
+          "source": {
+            "type": "string",
+            "enum": [
+              "merchant",
+              "pexels",
+              "canva",
+              "gemini"
+            ],
+            "description": "Where the image came from. Defaults to merchant. Pexels images must keep photographer and attribution_url."
+          },
+          "photographer": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "maxLength": 160,
+            "description": "Photographer credit (required for Pexels).",
+            "x-revkeen-explicit-nullable": true
+          },
+          "attribution_url": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "maxLength": 2000,
+            "description": "https link for the credit (required for Pexels).",
+            "x-revkeen-explicit-nullable": true
+          }
+        },
+        "required": [
+          "key"
+        ],
+        "description": "One extra product image. The main image is image_url and is never repeated in images."
+      },
       "ProductUpdateResponse": {
         "type": "object",
         "properties": {
@@ -4520,6 +4730,59 @@
           "is_archived": {
             "type": "boolean"
           },
+          "slug": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "maxLength": 80,
+            "description": "URL handle, unique among this merchant's products. Pass null to clear it.",
+            "x-revkeen-explicit-nullable": true
+          },
+          "images": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProductImage"
+            },
+            "maxItems": 20,
+            "description": "Ordered extra images (at most 20). Replaces the list. The main image stays in image_url."
+          },
+          "seo_title": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "maxLength": 70,
+            "description": "Search and social title (at most 70 characters). Defaults to the name.",
+            "x-revkeen-explicit-nullable": true
+          },
+          "seo_description": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "maxLength": 320,
+            "description": "Meta description (at most 320 characters).",
+            "x-revkeen-explicit-nullable": true
+          },
+          "store_visibility": {
+            "type": "string",
+            "enum": [
+              "visible",
+              "hidden",
+              "scheduled"
+            ],
+            "description": "Whether the product is listed on the Storefront. hidden: only payment links and invoices. scheduled: listed from store_visible_from."
+          },
+          "store_visible_from": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "date-time",
+            "description": "When a scheduled product appears on the Storefront (ISO 8601). Required when store_visibility is scheduled.",
+            "x-revkeen-explicit-nullable": true
+          },
           "fulfillment_type": {
             "type": "string",
             "enum": [
@@ -4531,7 +4794,7 @@
           },
           "track_inventory": {
             "type": "boolean",
-            "description": "Enable/disable the finite purchase cap (one-time products only). Requires stock_quantity when enabled."
+            "description": "Turn stock tracking on (requires stock_quantity) or off. One-time products only. Stock is stored in the product's availability record."
           },
           "stock_quantity": {
             "type": [
@@ -4539,7 +4802,8 @@
               "null"
             ],
             "minimum": 0,
-            "description": "Remaining units that can be purchased. Required (non-negative) when track_inventory is true.",
+            "deprecated": true,
+            "description": "Deprecated. Sets the units available to sell in the product's availability record. Required (non-negative) when track_inventory is true.",
             "x-revkeen-explicit-nullable": true
           },
           "tags": {
@@ -5914,6 +6178,16 @@
             ],
             "x-revkeen-explicit-nullable": true
           },
+          "checkout_url": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "uri",
+            "description": "Hosted checkout URL for this session, built server-side from the configured RevKeen checkout origin. Redirect the customer here. Null when the session has no token.",
+            "example": "https://pay.revkeen.com/p/rvk_cs_abc123",
+            "x-revkeen-explicit-nullable": true
+          },
           "status": {
             "type": "string",
             "example": "pending"
@@ -6112,6 +6386,29 @@
               "type": "string"
             },
             "description": "Merchant tags for store filters and search."
+          },
+          "images": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/StorefrontProductImage"
+            },
+            "description": "Extra images in display order. image_url stays the main image."
+          },
+          "seo_title": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Page title for search and social. Null means use the name.",
+            "x-revkeen-explicit-nullable": true
+          },
+          "seo_description": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Meta description. Null means use the description.",
+            "x-revkeen-explicit-nullable": true
           }
         },
         "required": [
@@ -6132,7 +6429,10 @@
           "tax_behavior",
           "tax_code",
           "availability",
-          "tags"
+          "tags",
+          "images",
+          "seo_title",
+          "seo_description"
         ],
         "description": "Browser-safe product projection for headless storefronts: display data, active prices, and derived availability only."
       },
@@ -6206,6 +6506,33 @@
               "null"
             ],
             "x-revkeen-explicit-nullable": true
+          },
+          "option_values": {
+            "type": [
+              "object",
+              "null"
+            ],
+            "additionalProperties": {
+              "type": "string"
+            },
+            "description": "The variant's options, e.g. {\"Size\":\"M\"}. Null when the price is not a variant.",
+            "x-revkeen-explicit-nullable": true
+          },
+          "sku": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "The variant's SKU. Null when not set.",
+            "x-revkeen-explicit-nullable": true
+          },
+          "image_url": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "The variant's image as a browser URL. Null when not set.",
+            "x-revkeen-explicit-nullable": true
           }
         },
         "required": [
@@ -6261,6 +6588,46 @@
           "low_stock_threshold"
         ],
         "description": "Derived availability (capacity + oversell − reserved − confirmed). `unknown` when the product does not track availability."
+      },
+      "StorefrontProductImage": {
+        "type": "object",
+        "properties": {
+          "url": {
+            "type": "string"
+          },
+          "alt": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "x-revkeen-explicit-nullable": true
+          },
+          "source": {
+            "type": "string"
+          },
+          "photographer": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "x-revkeen-explicit-nullable": true
+          },
+          "attribution_url": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "x-revkeen-explicit-nullable": true
+          }
+        },
+        "required": [
+          "url",
+          "alt",
+          "source",
+          "photographer",
+          "attribution_url"
+        ],
+        "description": "An extra product image as a browser URL. Show the photographer credit and link when present (required for Pexels images)."
       },
       "StorefrontProductError": {
         "type": "object",
@@ -9271,6 +9638,31 @@
             "maxLength": 500,
             "description": "Additional details about the refund reason",
             "example": "Customer requested refund via support ticket #12345"
+          },
+          "restock_line_items": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "invoice_line_item_id": {
+                  "type": "string",
+                  "format": "uuid",
+                  "description": "An invoice line of the refunded payment"
+                },
+                "quantity": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "description": "Units of that line to put back on sale",
+                  "example": 1
+                }
+              },
+              "required": [
+                "invoice_line_item_id",
+                "quantity"
+              ]
+            },
+            "maxItems": 100,
+            "description": "Units to put back on sale once the refund succeeds, by invoice line. Omit to restock nothing: an amount alone never restocks."
           }
         },
         "required": [
@@ -13048,6 +13440,33 @@
             "description": "Minimum minor-unit amount applied to each pay-in-advance usage drawdown when set.",
             "x-revkeen-explicit-nullable": true
           },
+          "option_values": {
+            "type": [
+              "object",
+              "null"
+            ],
+            "additionalProperties": {
+              "type": "string"
+            },
+            "description": "The variant's options, e.g. {\"Colour\":\"Navy\",\"Size\":\"M\"}. Null when the price is not a variant.",
+            "x-revkeen-explicit-nullable": true
+          },
+          "sku": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "The variant's SKU (what to pack). Unique per merchant among active prices.",
+            "x-revkeen-explicit-nullable": true
+          },
+          "image_url": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "The variant's image (storage key or URL), one of the product's images.",
+            "x-revkeen-explicit-nullable": true
+          },
           "metadata": {
             "type": "object",
             "additionalProperties": true,
@@ -13100,7 +13519,7 @@
               "null"
             ],
             "minimum": 0,
-            "description": "Per-unit charge in minor currency units (cents). May be null if the tier charges only a flat fee, or (REV-6249) when the rate is sub-penny and carried by `unit_amount_decimal`.",
+            "description": "Per-unit charge in minor currency units (cents). May be null if the tier charges only a flat fee, or when the rate is sub-penny and carried by `unit_amount_decimal`.",
             "format": "int64",
             "x-revkeen-money-minor": true,
             "x-revkeen-explicit-nullable": true
@@ -14649,6 +15068,70 @@
           "position": {
             "type": "integer",
             "default": 0
+          },
+          "fulfillment_type": {
+            "type": "string",
+            "enum": [
+              "none",
+              "physical",
+              "digital"
+            ],
+            "description": "How this line is fulfilled"
+          },
+          "fulfillment_status": {
+            "type": "string",
+            "enum": [
+              "pending",
+              "processing",
+              "shipped",
+              "delivered",
+              "cancelled"
+            ],
+            "description": "Fulfilment state of this line; processing means partly shipped"
+          },
+          "fulfilled_quantity": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Units of this line shipped so far"
+          },
+          "tracking_number": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "x-revkeen-explicit-nullable": true
+          },
+          "tracking_url": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "x-revkeen-explicit-nullable": true
+          },
+          "carrier": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "x-revkeen-explicit-nullable": true
+          },
+          "shipped_at": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "date-time",
+            "x-revkeen-rfc3339-timestamp": true,
+            "x-revkeen-explicit-nullable": true
+          },
+          "delivered_at": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "date-time",
+            "x-revkeen-rfc3339-timestamp": true,
+            "x-revkeen-explicit-nullable": true
           }
         },
         "required": [
@@ -14749,7 +15232,23 @@
               "type": "string",
               "format": "uuid"
             },
-            "description": "Specific line items to fulfill (defaults to all)"
+            "maxItems": 500,
+            "description": "Specific line items to fulfill, each in full (defaults to every unfulfilled line)"
+          },
+          "tracking_url": {
+            "type": "string",
+            "maxLength": 2000,
+            "format": "uri",
+            "description": "Carrier tracking link"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "shipped",
+              "delivered"
+            ],
+            "default": "shipped",
+            "description": "Mark the lines shipped (default) or delivered"
           },
           "notify_customer": {
             "type": "boolean",
@@ -18689,6 +19188,31 @@
             "maxLength": 500,
             "description": "Reason for the refund",
             "example": "Customer return"
+          },
+          "restock_line_items": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "invoice_line_item_id": {
+                  "type": "string",
+                  "format": "uuid",
+                  "description": "An invoice line of the refunded payment"
+                },
+                "quantity": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "description": "Units of that line to put back on sale",
+                  "example": 1
+                }
+              },
+              "required": [
+                "invoice_line_item_id",
+                "quantity"
+              ]
+            },
+            "maxItems": 100,
+            "description": "Units to put back on sale once the refund is approved, by invoice line. Omit to restock nothing."
           }
         },
         "description": "Parameters for refunding a completed terminal payment, optionally specifying a partial amount."
@@ -19014,7 +19538,7 @@
           "idempotency_key": {
             "type": "string",
             "minLength": 1,
-            "description": "REQUIRED merchant-scoped deduplication key (REV-6490). Reusing the same key returns duplicate status and does not create another billable event. Compose it from stable business identifiers (entity ids, types), never from timestamps.",
+            "description": "REQUIRED merchant-scoped deduplication key. Reusing the same key returns duplicate status and does not create another billable event. Compose it from stable business identifiers (entity ids, types), never from timestamps.",
             "example": "evt_unique_123"
           },
           "metadata": {
@@ -22735,7 +23259,7 @@
               "null"
             ],
             "format": "uri",
-            "description": "Custom URL to redirect after successful payment. Supports placeholders: {CHECKOUT_ID}, {TRANSACTION_ID}, {PAYMENT_ID}, {CUSTOMER_ID}, {AMOUNT}, {CURRENCY}, {PORTAL_URL}. If not set, redirects to RevKeen's default success page.",
+            "description": "Custom URL to redirect after successful payment. Supports placeholders: {CHECKOUT_ID}, {TRANSACTION_ID}, {PAYMENT_ID}, {CUSTOMER_ID}, {AMOUNT}, {CURRENCY}, {PORTAL_URL}, {CHECKOUT_STATUS_TOKEN}. If not set, redirects to RevKeen's default success page.",
             "x-revkeen-explicit-nullable": true
           },
           "cancel_url": {
@@ -23698,7 +24222,7 @@
     },
     {
       "name": "Invoice Line Items",
-      "description": "Invoice line item utilities. Includes usage provenance: trace a usage line back to the billing entries, meter matches, and events that produced it (REV-6228).\n\n**Required Scopes:**\n- `invoices:read`",
+      "description": "Invoice line item utilities. Includes usage provenance: trace a usage line back to the billing entries, meter matches, and events that produced it.\n\n**Required Scopes:**\n- `invoices:read`",
       "x-displayName": "Invoice Line Items"
     },
     {
@@ -25326,12 +25850,12 @@
           {
             "lang": "curl",
             "label": "cURL",
-            "source": "curl -X POST \"https://api.revkeen.com/v2/products\" \\\n  -H \"x-api-key: $REVKEEN_API_KEY\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n    \"product_id\": \"string\",\n    \"name\": \"string\",\n    \"description\": null,\n    \"kind\": \"subscription\",\n    \"pricing_model\": \"one_time\",\n    \"amount_minor\": 0,\n    \"currency\": \"string\",\n    \"interval\": null,\n    \"interval_count\": null,\n    \"trial_days\": 0,\n    \"usage_meter_id\": null,\n    \"slug\": \"string\",\n    \"fulfillment_type\": \"none\",\n    \"track_inventory\": false,\n    \"stock_quantity\": null,\n    \"tags\": [\n      \"string\"\n    ],\n    \"billing_anchor_rule\": \"same_day\",\n    \"billing_anchor_day\": null,\n    \"first_charge_behavior\": \"immediate\",\n    \"end_behavior\": \"until_canceled\",\n    \"max_payments\": null,\n    \"metadata\": {},\n    \"image_url\": null\n  }'"
+            "source": "curl -X POST \"https://api.revkeen.com/v2/products\" \\\n  -H \"x-api-key: $REVKEEN_API_KEY\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n    \"product_id\": \"string\",\n    \"name\": \"string\",\n    \"description\": null,\n    \"kind\": \"subscription\",\n    \"pricing_model\": \"one_time\",\n    \"amount_minor\": 0,\n    \"currency\": \"string\",\n    \"interval\": null,\n    \"interval_count\": null,\n    \"trial_days\": 0,\n    \"usage_meter_id\": null,\n    \"slug\": \"string\",\n    \"images\": [\n      {\n        \"key\": null,\n        \"asset_id\": null,\n        \"alt\": null,\n        \"source\": null,\n        \"photographer\": null,\n        \"attribution_url\": null\n      }\n    ],\n    \"seo_title\": null,\n    \"seo_description\": null,\n    \"store_visibility\": \"visible\",\n    \"store_visible_from\": null,\n    \"fulfillment_type\": \"none\",\n    \"track_inventory\": false,\n    \"stock_quantity\": null,\n    \"tags\": [\n      \"string\"\n    ],\n    \"billing_anchor_rule\": \"same_day\",\n    \"billing_anchor_day\": null,\n    \"first_charge_behavior\": \"immediate\",\n    \"end_behavior\": \"until_canceled\",\n    \"max_payments\": null,\n    \"metadata\": {},\n    \"image_url\": null\n  }'"
           },
           {
             "lang": "typescript",
             "label": "TypeScript",
-            "source": "import { productsCreate } from \"@revkeen/sdk\";\n\nconst { data, error } = await productsCreate({\n  body: {\n    \"product_id\": \"string\",\n    \"name\": \"string\",\n    \"description\": null,\n    \"kind\": \"subscription\",\n    \"pricing_model\": \"one_time\",\n    \"amount_minor\": 0,\n    \"currency\": \"string\",\n    \"interval\": null,\n    \"interval_count\": null,\n    \"trial_days\": 0,\n    \"usage_meter_id\": null,\n    \"slug\": \"string\",\n    \"fulfillment_type\": \"none\",\n    \"track_inventory\": false,\n    \"stock_quantity\": null,\n    \"tags\": [\n      \"string\"\n    ],\n    \"billing_anchor_rule\": \"same_day\",\n    \"billing_anchor_day\": null,\n    \"first_charge_behavior\": \"immediate\",\n    \"end_behavior\": \"until_canceled\",\n    \"max_payments\": null,\n    \"metadata\": {},\n    \"image_url\": null\n  },\n});\nif (error) throw error;\nconsole.log(data);"
+            "source": "import { productsCreate } from \"@revkeen/sdk\";\n\nconst { data, error } = await productsCreate({\n  body: {\n    \"product_id\": \"string\",\n    \"name\": \"string\",\n    \"description\": null,\n    \"kind\": \"subscription\",\n    \"pricing_model\": \"one_time\",\n    \"amount_minor\": 0,\n    \"currency\": \"string\",\n    \"interval\": null,\n    \"interval_count\": null,\n    \"trial_days\": 0,\n    \"usage_meter_id\": null,\n    \"slug\": \"string\",\n    \"images\": [\n      {\n        \"key\": null,\n        \"asset_id\": null,\n        \"alt\": null,\n        \"source\": null,\n        \"photographer\": null,\n        \"attribution_url\": null\n      }\n    ],\n    \"seo_title\": null,\n    \"seo_description\": null,\n    \"store_visibility\": \"visible\",\n    \"store_visible_from\": null,\n    \"fulfillment_type\": \"none\",\n    \"track_inventory\": false,\n    \"stock_quantity\": null,\n    \"tags\": [\n      \"string\"\n    ],\n    \"billing_anchor_rule\": \"same_day\",\n    \"billing_anchor_day\": null,\n    \"first_charge_behavior\": \"immediate\",\n    \"end_behavior\": \"until_canceled\",\n    \"max_payments\": null,\n    \"metadata\": {},\n    \"image_url\": null\n  },\n});\nif (error) throw error;\nconsole.log(data);"
           },
           {
             "lang": "go",
@@ -25623,12 +26147,12 @@
           {
             "lang": "curl",
             "label": "cURL",
-            "source": "curl -X PATCH \"https://api.revkeen.com/v2/products/prod_123\" \\\n  -H \"x-api-key: $REVKEEN_API_KEY\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n    \"name\": \"string\",\n    \"description\": null,\n    \"amount_minor\": 0,\n    \"currency\": \"string\",\n    \"interval\": null,\n    \"interval_count\": null,\n    \"trial_days\": 0,\n    \"is_active\": false,\n    \"is_archived\": false,\n    \"fulfillment_type\": \"none\",\n    \"track_inventory\": false,\n    \"stock_quantity\": null,\n    \"tags\": [\n      \"string\"\n    ],\n    \"billing_anchor_rule\": \"same_day\",\n    \"billing_anchor_day\": null,\n    \"first_charge_behavior\": \"immediate\",\n    \"end_behavior\": \"until_canceled\",\n    \"max_payments\": null,\n    \"metadata\": {},\n    \"image_url\": null\n  }'"
+            "source": "curl -X PATCH \"https://api.revkeen.com/v2/products/prod_123\" \\\n  -H \"x-api-key: $REVKEEN_API_KEY\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n    \"name\": \"string\",\n    \"description\": null,\n    \"amount_minor\": 0,\n    \"currency\": \"string\",\n    \"interval\": null,\n    \"interval_count\": null,\n    \"trial_days\": 0,\n    \"is_active\": false,\n    \"is_archived\": false,\n    \"slug\": null,\n    \"images\": [\n      {\n        \"key\": null,\n        \"asset_id\": null,\n        \"alt\": null,\n        \"source\": null,\n        \"photographer\": null,\n        \"attribution_url\": null\n      }\n    ],\n    \"seo_title\": null,\n    \"seo_description\": null,\n    \"store_visibility\": \"visible\",\n    \"store_visible_from\": null,\n    \"fulfillment_type\": \"none\",\n    \"track_inventory\": false,\n    \"stock_quantity\": null,\n    \"tags\": [\n      \"string\"\n    ],\n    \"billing_anchor_rule\": \"same_day\",\n    \"billing_anchor_day\": null,\n    \"first_charge_behavior\": \"immediate\",\n    \"end_behavior\": \"until_canceled\",\n    \"max_payments\": null,\n    \"metadata\": {},\n    \"image_url\": null\n  }'"
           },
           {
             "lang": "typescript",
             "label": "TypeScript",
-            "source": "import { productsUpdate } from \"@revkeen/sdk\";\n\nconst { data, error } = await productsUpdate({\n  path: { id: \"prod_123\" },\n  body: {\n    \"name\": \"string\",\n    \"description\": null,\n    \"amount_minor\": 0,\n    \"currency\": \"string\",\n    \"interval\": null,\n    \"interval_count\": null,\n    \"trial_days\": 0,\n    \"is_active\": false,\n    \"is_archived\": false,\n    \"fulfillment_type\": \"none\",\n    \"track_inventory\": false,\n    \"stock_quantity\": null,\n    \"tags\": [\n      \"string\"\n    ],\n    \"billing_anchor_rule\": \"same_day\",\n    \"billing_anchor_day\": null,\n    \"first_charge_behavior\": \"immediate\",\n    \"end_behavior\": \"until_canceled\",\n    \"max_payments\": null,\n    \"metadata\": {},\n    \"image_url\": null\n  },\n});\nif (error) throw error;\nconsole.log(data);"
+            "source": "import { productsUpdate } from \"@revkeen/sdk\";\n\nconst { data, error } = await productsUpdate({\n  path: { id: \"prod_123\" },\n  body: {\n    \"name\": \"string\",\n    \"description\": null,\n    \"amount_minor\": 0,\n    \"currency\": \"string\",\n    \"interval\": null,\n    \"interval_count\": null,\n    \"trial_days\": 0,\n    \"is_active\": false,\n    \"is_archived\": false,\n    \"slug\": null,\n    \"images\": [\n      {\n        \"key\": null,\n        \"asset_id\": null,\n        \"alt\": null,\n        \"source\": null,\n        \"photographer\": null,\n        \"attribution_url\": null\n      }\n    ],\n    \"seo_title\": null,\n    \"seo_description\": null,\n    \"store_visibility\": \"visible\",\n    \"store_visible_from\": null,\n    \"fulfillment_type\": \"none\",\n    \"track_inventory\": false,\n    \"stock_quantity\": null,\n    \"tags\": [\n      \"string\"\n    ],\n    \"billing_anchor_rule\": \"same_day\",\n    \"billing_anchor_day\": null,\n    \"first_charge_behavior\": \"immediate\",\n    \"end_behavior\": \"until_canceled\",\n    \"max_payments\": null,\n    \"metadata\": {},\n    \"image_url\": null\n  },\n});\nif (error) throw error;\nconsole.log(data);"
           },
           {
             "lang": "go",
@@ -27914,7 +28438,7 @@
           "cart-sessions"
         ],
         "summary": "Capture customer email + consent on a cart",
-        "description": "Capture the customer's email and marketing/recovery consent on an open cart so an abandoned cart can be recovered (REV-5517). Every field is optional; pass `null` to clear. Setting a field records its consent/capture timestamp. Idempotent — an input that changes nothing is a no-op.\n\n---\n\n**Related endpoints**\n\n- `POST /cart-sessions` — Create a cart session\n- `GET /cart-sessions/{id}` — Retrieve a cart session\n- `POST /cart-sessions/{id}/line-items` — Add a line item to a cart session\n- `PATCH /cart-sessions/{id}/line-items/{lineId}` — Update a line item's quantity\n- `DELETE /cart-sessions/{id}/line-items/{lineId}` — Remove a line item from a cart session\n- `POST /cart-sessions/{id}/add-ons` — Toggle an add-on on a cart session\n- `POST /cart-sessions/{id}/discount-code` — Set or clear a cart discount code\n- `POST /cart-sessions/{id}/convert` — Convert a cart session into a checkout session\n\n**Common errors**\n\n- `400 invalid_request` — malformed payload or failed validation.\n- `401 authentication_error` — missing, invalid, expired, or revoked credential. Codes: `authentication_failed`, `invalid_api_key`, `expired_api_key`, `api_key_revoked`, `session_invalid`, `merchant_required`. Carries a `WWW-Authenticate: Bearer` challenge.\n- `404 resource_missing` — the referenced resource does not exist or is not visible to your key.\n- `409 conflict` — Idempotency-Key collision with a different body, or a concurrent state-transition conflict.\n\n**Idempotency**\n\nPass an `Idempotency-Key` header (UUID v4 recommended) to make retries safe. Keys are valid for 24 hours; see [the idempotency guide](/docs/fundamentals/idempotency).",
+        "description": "Capture the customer's email and marketing/recovery consent on an open cart so an abandoned cart can be recovered. Every field is optional; pass `null` to clear. Setting a field records its consent/capture timestamp. Idempotent — an input that changes nothing is a no-op.\n\n---\n\n**Related endpoints**\n\n- `POST /cart-sessions` — Create a cart session\n- `GET /cart-sessions/{id}` — Retrieve a cart session\n- `POST /cart-sessions/{id}/line-items` — Add a line item to a cart session\n- `PATCH /cart-sessions/{id}/line-items/{lineId}` — Update a line item's quantity\n- `DELETE /cart-sessions/{id}/line-items/{lineId}` — Remove a line item from a cart session\n- `POST /cart-sessions/{id}/add-ons` — Toggle an add-on on a cart session\n- `POST /cart-sessions/{id}/discount-code` — Set or clear a cart discount code\n- `POST /cart-sessions/{id}/convert` — Convert a cart session into a checkout session\n\n**Common errors**\n\n- `400 invalid_request` — malformed payload or failed validation.\n- `401 authentication_error` — missing, invalid, expired, or revoked credential. Codes: `authentication_failed`, `invalid_api_key`, `expired_api_key`, `api_key_revoked`, `session_invalid`, `merchant_required`. Carries a `WWW-Authenticate: Bearer` challenge.\n- `404 resource_missing` — the referenced resource does not exist or is not visible to your key.\n- `409 conflict` — Idempotency-Key collision with a different body, or a concurrent state-transition conflict.\n\n**Idempotency**\n\nPass an `Idempotency-Key` header (UUID v4 recommended) to make retries safe. Keys are valid for 24 hours; see [the idempotency guide](/docs/fundamentals/idempotency).",
         "parameters": [
           {
             "schema": {
@@ -28667,7 +29191,7 @@
           "products"
         ],
         "summary": "List storefront products",
-        "description": "List active, cart-eligible products with browser-safe display data, active prices, and derived availability. Intended for publishable-key storefront and CMS-picker use; never returns product metadata or internal fields.\n\n---\n\n**Related endpoints**\n\n- `GET /storefront/products/{productId}` — Get a storefront product\n- `GET /storefront/origins` — List storefront origins\n- `POST /storefront/origins` — Register a storefront origin\n- `DELETE /storefront/origins/{originId}` — Remove a storefront origin\n- `GET /storefront/status` — Get storefront integration status\n\n**Common errors**\n\n- `401 authentication_error` — missing, invalid, expired, or revoked credential. Codes: `authentication_failed`, `invalid_api_key`, `expired_api_key`, `api_key_revoked`, `session_invalid`, `merchant_required`. Carries a `WWW-Authenticate: Bearer` challenge.\n- `403 authorization_error` — the caller is identified but the action is denied. Codes include `insufficient_permissions`, `ip_not_allowed`, `merchant_mismatch`, and `origin_not_allowed`.\n\n**Pagination**\n\nOffset-based with `limit` (default 25, max 100) and `offset`. The response `pagination` block includes `total` and `hasMore`. See [the pagination guide](/docs/fundamentals/pagination) for SDK auto-paging helpers.",
+        "description": "List active, cart-eligible products with browser-safe display data, active prices, and derived availability. Only products listed on the Storefront are returned (store_visibility visible, or scheduled and due). Intended for publishable-key storefront and CMS-picker use; never returns product metadata or internal fields.\n\n---\n\n**Related endpoints**\n\n- `GET /storefront/products/{productId}` — Get a storefront product\n- `GET /storefront/origins` — List storefront origins\n- `POST /storefront/origins` — Register a storefront origin\n- `DELETE /storefront/origins/{originId}` — Remove a storefront origin\n- `GET /storefront/status` — Get storefront integration status\n\n**Common errors**\n\n- `401 authentication_error` — missing, invalid, expired, or revoked credential. Codes: `authentication_failed`, `invalid_api_key`, `expired_api_key`, `api_key_revoked`, `session_invalid`, `merchant_required`. Carries a `WWW-Authenticate: Bearer` challenge.\n- `403 authorization_error` — the caller is identified but the action is denied. Codes include `insufficient_permissions`, `ip_not_allowed`, `merchant_mismatch`, and `origin_not_allowed`.\n\n**Pagination**\n\nOffset-based with `limit` (default 25, max 100) and `offset`. The response `pagination` block includes `total` and `hasMore`. See [the pagination guide](/docs/fundamentals/pagination) for SDK auto-paging helpers.",
         "parameters": [
           {
             "schema": {
@@ -28859,15 +29383,15 @@
           "products"
         ],
         "summary": "Get a storefront product",
-        "description": "Fetch one active, cart-eligible product by UUID, product reference, or slug. Same browser-safe projection as the list endpoint.\n\n---\n\n**Related endpoints**\n\n- `GET /storefront/products` — List storefront products\n- `GET /storefront/origins` — List storefront origins\n- `POST /storefront/origins` — Register a storefront origin\n- `DELETE /storefront/origins/{originId}` — Remove a storefront origin\n- `GET /storefront/status` — Get storefront integration status\n\n**Common errors**\n\n- `401 authentication_error` — missing, invalid, expired, or revoked credential. Codes: `authentication_failed`, `invalid_api_key`, `expired_api_key`, `api_key_revoked`, `session_invalid`, `merchant_required`. Carries a `WWW-Authenticate: Bearer` challenge.\n- `403 authorization_error` — the caller is identified but the action is denied. Codes include `insufficient_permissions`, `ip_not_allowed`, `merchant_mismatch`, and `origin_not_allowed`.\n- `404 resource_missing` — the referenced resource does not exist or is not visible to your key.",
+        "description": "Fetch one active, cart-eligible product by UUID, URL handle (slug), or product reference. A UUID also finds a product hidden from the Storefront; a handle or reference only finds listed products, and the handle wins over another product's reference. Same browser-safe projection as the list endpoint.\n\n---\n\n**Related endpoints**\n\n- `GET /storefront/products` — List storefront products\n- `GET /storefront/origins` — List storefront origins\n- `POST /storefront/origins` — Register a storefront origin\n- `DELETE /storefront/origins/{originId}` — Remove a storefront origin\n- `GET /storefront/status` — Get storefront integration status\n\n**Common errors**\n\n- `401 authentication_error` — missing, invalid, expired, or revoked credential. Codes: `authentication_failed`, `invalid_api_key`, `expired_api_key`, `api_key_revoked`, `session_invalid`, `merchant_required`. Carries a `WWW-Authenticate: Bearer` challenge.\n- `403 authorization_error` — the caller is identified but the action is denied. Codes include `insufficient_permissions`, `ip_not_allowed`, `merchant_mismatch`, and `origin_not_allowed`.\n- `404 resource_missing` — the referenced resource does not exist or is not visible to your key.",
         "parameters": [
           {
             "schema": {
               "type": "string",
-              "description": "Product UUID, merchant product reference, or slug."
+              "description": "Product UUID, URL handle (slug), or merchant product reference."
             },
             "required": true,
-            "description": "Product UUID, merchant product reference, or slug.",
+            "description": "Product UUID, URL handle (slug), or merchant product reference.",
             "name": "productId",
             "in": "path"
           }
@@ -30556,7 +31080,7 @@
           "subscriptions"
         ],
         "summary": "Create a new subscription",
-        "description": "Create a new subscription for a customer.\n\n**Subscriptions created through the API don't collect payment yet** (tracked as REV-8403). They are created without an amount, so no renewal takes a payment. Use a checkout link or an invoice to collect.\n\nSet `paymentRail: direct_debit` with an active `mandateId` to create a Direct Debit subscription (GBP only). This needs a signed-in team member or an OAuth app; API keys are refused with 403.\n\n---\n\n**Related endpoints**\n\n- `GET /subscriptions` — List subscriptions\n- `GET /subscriptions/{id}` — Get subscription by ID\n- `PATCH /subscriptions/{id}` — Update subscription details\n- `DELETE /subscriptions/{id}` — Delete subscription\n- `POST /subscriptions/{id}/change-plan` — Change subscription plan\n- `POST /subscriptions/{id}/change-quantity` — Change subscription quantity\n- `POST /subscriptions/{id}/preview-renewal` — Preview subscription renewal\n- `POST /subscriptions/{id}/pause` — Pause subscription\n\n**Common errors**\n\n- `400 invalid_request` — malformed payload or failed validation.\n- `401 authentication_error` — missing, invalid, expired, or revoked credential. Codes: `authentication_failed`, `invalid_api_key`, `expired_api_key`, `api_key_revoked`, `session_invalid`, `merchant_required`. Carries a `WWW-Authenticate: Bearer` challenge.\n- `403 authorization_error` — the caller is identified but the action is denied. Codes include `insufficient_permissions`, `ip_not_allowed`, `merchant_mismatch`, and `origin_not_allowed`.\n- `404 resource_missing` — the referenced resource does not exist or is not visible to your key.\n- `422 unprocessable_entity` — business-rule failure (for example, refunding more than the original charge).\n\n**Idempotency**\n\nPass an `Idempotency-Key` header (UUID v4 recommended) to make retries safe. Keys are valid for 24 hours; see [the idempotency guide](/docs/fundamentals/idempotency).",
+        "description": "Create a new subscription for a customer.\n\n**The first period is billed at creation**, at the price's amount for the quantity. On card the saved `paymentMethodId` is charged straight away (it is required unless the subscription starts in a trial). On Direct Debit the first collection is scheduled with advance notice, typically 5–7 working days after creation. With a trial, nothing is billed until the trial ends.\n\nSet `paymentRail: direct_debit` with an active `mandateId` to create a Direct Debit subscription (GBP only). This needs a signed-in team member or an OAuth app; API keys are refused with 403.\n\n---\n\n**Related endpoints**\n\n- `GET /subscriptions` — List subscriptions\n- `GET /subscriptions/{id}` — Get subscription by ID\n- `PATCH /subscriptions/{id}` — Update subscription details\n- `DELETE /subscriptions/{id}` — Delete subscription\n- `POST /subscriptions/{id}/change-plan` — Change subscription plan\n- `POST /subscriptions/{id}/change-quantity` — Change subscription quantity\n- `POST /subscriptions/{id}/preview-renewal` — Preview subscription renewal\n- `POST /subscriptions/{id}/pause` — Pause subscription\n\n**Common errors**\n\n- `400 invalid_request` — malformed payload or failed validation.\n- `401 authentication_error` — missing, invalid, expired, or revoked credential. Codes: `authentication_failed`, `invalid_api_key`, `expired_api_key`, `api_key_revoked`, `session_invalid`, `merchant_required`. Carries a `WWW-Authenticate: Bearer` challenge.\n- `403 authorization_error` — the caller is identified but the action is denied. Codes include `insufficient_permissions`, `ip_not_allowed`, `merchant_mismatch`, and `origin_not_allowed`.\n- `404 resource_missing` — the referenced resource does not exist or is not visible to your key.\n- `422 unprocessable_entity` — business-rule failure (for example, refunding more than the original charge).\n\n**Idempotency**\n\nPass an `Idempotency-Key` header (UUID v4 recommended) to make retries safe. Keys are valid for 24 hours; see [the idempotency guide](/docs/fundamentals/idempotency).",
         "requestBody": {
           "content": {
             "application/json": {
@@ -31958,12 +32482,12 @@
           {
             "lang": "curl",
             "label": "cURL",
-            "source": "curl -X POST \"https://api.revkeen.com/v2/refunds\" \\\n  -H \"x-api-key: $REVKEEN_API_KEY\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n    \"payment_id\": \"660e8400-e29b-41d4-a716-446655440000\",\n    \"amount_minor\": 5000,\n    \"reason\": \"customer_request\",\n    \"reason_details\": \"Customer requested refund via support ticket #12345\"\n  }'"
+            "source": "curl -X POST \"https://api.revkeen.com/v2/refunds\" \\\n  -H \"x-api-key: $REVKEEN_API_KEY\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n    \"payment_id\": \"660e8400-e29b-41d4-a716-446655440000\",\n    \"amount_minor\": 5000,\n    \"reason\": \"customer_request\",\n    \"reason_details\": \"Customer requested refund via support ticket #12345\",\n    \"restock_line_items\": [\n      {\n        \"invoice_line_item_id\": \"00000000-0000-0000-0000-000000000000\",\n        \"quantity\": 1\n      }\n    ]\n  }'"
           },
           {
             "lang": "typescript",
             "label": "TypeScript",
-            "source": "import { refundsCreate } from \"@revkeen/sdk\";\n\nconst { data, error } = await refundsCreate({\n  body: {\n    \"payment_id\": \"660e8400-e29b-41d4-a716-446655440000\",\n    \"amount_minor\": 5000,\n    \"reason\": \"customer_request\",\n    \"reason_details\": \"Customer requested refund via support ticket #12345\"\n  },\n});\nif (error) throw error;\nconsole.log(data);"
+            "source": "import { refundsCreate } from \"@revkeen/sdk\";\n\nconst { data, error } = await refundsCreate({\n  body: {\n    \"payment_id\": \"660e8400-e29b-41d4-a716-446655440000\",\n    \"amount_minor\": 5000,\n    \"reason\": \"customer_request\",\n    \"reason_details\": \"Customer requested refund via support ticket #12345\",\n    \"restock_line_items\": [\n      {\n        \"invoice_line_item_id\": \"00000000-0000-0000-0000-000000000000\",\n        \"quantity\": 1\n      }\n    ]\n  },\n});\nif (error) throw error;\nconsole.log(data);"
           },
           {
             "lang": "go",
@@ -32953,6 +33477,8 @@
                   "amount_minor": {
                     "type": "integer",
                     "minimum": 0,
+                    "deprecated": true,
+                    "description": "Deprecated and ignored. A payment link charges the prices of its products or line_items; an amount sent here is never charged.",
                     "format": "int64",
                     "x-revkeen-money-minor": true
                   },
@@ -32964,16 +33490,20 @@
                   },
                   "invoice_id": {
                     "type": "string",
-                    "format": "uuid"
+                    "format": "uuid",
+                    "deprecated": true,
+                    "description": "Deprecated and ignored. This endpoint does not create a payment link for an invoice."
                   },
                   "subscription_id": {
                     "type": "string",
-                    "format": "uuid"
+                    "format": "uuid",
+                    "deprecated": true,
+                    "description": "Deprecated and ignored. This endpoint does not attach a payment link to an existing subscription."
                   },
                   "success_url": {
                     "type": "string",
                     "format": "uri",
-                    "description": "Custom URL to redirect after successful payment. Supports placeholders: {CHECKOUT_ID}, {TRANSACTION_ID}, {PAYMENT_ID}, {CUSTOMER_ID}, {AMOUNT}, {CURRENCY}, {PORTAL_URL}. If not set, redirects to RevKeen's default success page."
+                    "description": "Custom URL to redirect after successful payment. Supports placeholders: {CHECKOUT_ID}, {TRANSACTION_ID}, {PAYMENT_ID}, {CUSTOMER_ID}, {AMOUNT}, {CURRENCY}, {PORTAL_URL}, {CHECKOUT_STATUS_TOKEN}. If not set, redirects to RevKeen's default success page."
                   },
                   "cancel_url": {
                     "type": "string",
@@ -32982,15 +33512,19 @@
                   },
                   "redirect_url": {
                     "type": "string",
-                    "format": "uri"
+                    "format": "uri",
+                    "deprecated": true,
+                    "description": "Deprecated and ignored. Use success_url."
                   },
                   "collect_shipping": {
                     "type": "boolean",
-                    "default": false
+                    "default": false,
+                    "description": "When true, checkout asks the customer for a delivery address before payment."
                   },
                   "allow_promotion_codes": {
                     "type": "boolean",
-                    "default": true
+                    "default": true,
+                    "description": "Not applied yet: links created through this endpoint do not accept discount codes, whatever this is set to."
                   },
                   "tax_behavior": {
                     "type": "string",
@@ -32999,7 +33533,8 @@
                       "inclusive",
                       "unspecified"
                     ],
-                    "default": "unspecified"
+                    "default": "unspecified",
+                    "description": "Whether the link's prices include tax. inclusive or exclusive is saved on the link; unspecified keeps the default (exclusive). Tax is only calculated when the link's tax mode is manual or auto, which this endpoint does not set."
                   },
                   "metadata": {
                     "type": "object",

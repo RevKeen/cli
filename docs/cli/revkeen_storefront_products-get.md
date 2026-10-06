@@ -11,7 +11,7 @@ revkeen storefront products-get [flags]
 ```
       -- string            
   -h, --help               help for products-get
-      --productId string   Product UUID, merchant product reference, or slug.
+      --productId string   Product UUID, URL handle (slug), or merchant product reference.
 ```
 
 ### Options inherited from parent commands
