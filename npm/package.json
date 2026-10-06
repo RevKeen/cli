@@ -1,6 +1,6 @@
 {
   "name": "@revkeen/cli-binary",
-  "version": "0.3.1-rc.1",
+  "version": "0.3.1",
   "description": "RevKeen CLI — manage payments, subscriptions & billing from your terminal",
   "bin": {
     "revkeen": "run.js"
