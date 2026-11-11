@@ -2,15 +2,17 @@
 
 "use strict";
 
-const { execSync } = require("child_process");
+const { execFileSync } = require("child_process");
+const crypto = require("crypto");
 const fs = require("fs");
 const https = require("https");
 const os = require("os");
 const path = require("path");
-const { createWriteStream, mkdirSync } = fs;
+const { mkdirSync } = fs;
 
 const VERSION = require("./package.json").version;
 const REPO = "revkeen/cli";
+const CHECKSUMS_PATH = path.join(__dirname, "checksums.json");
 
 const PLATFORM_MAP = {
   darwin: "darwin",
@@ -45,23 +47,73 @@ function getBinaryName() {
   return process.platform === "win32" ? "revkeen.exe" : "revkeen";
 }
 
+// The expected SHA-256 of every archive this version downloads, written at
+// release time from GoReleaser's checksums.txt. npm's own integrity hash covers
+// this file, so a release asset replaced after publication no longer installs.
+// Missing or mismatched is fatal: there is no unverified install path.
+function expectedDigest(archiveName) {
+  let manifest;
+  try {
+    manifest = JSON.parse(fs.readFileSync(CHECKSUMS_PATH, "utf8"));
+  } catch (err) {
+    throw new Error(
+      `Cannot read the checksum manifest at ${CHECKSUMS_PATH} (${err.message}). ` +
+        "A published @revkeen/cli-binary always ships one; refusing to install an unverified binary."
+    );
+  }
+
+  if (manifest.schemaVersion !== 1) {
+    throw new Error(`Unsupported checksum manifest schemaVersion: ${manifest.schemaVersion}`);
+  }
+  if (manifest.algorithm !== "sha256") {
+    throw new Error(`Unsupported checksum algorithm: ${manifest.algorithm}`);
+  }
+  if (manifest.version !== VERSION) {
+    throw new Error(
+      `Checksum manifest is for v${manifest.version} but this package is v${VERSION}.`
+    );
+  }
+
+  const digest = manifest.archives?.[archiveName];
+  if (typeof digest !== "string" || !/^[0-9a-f]{64}$/.test(digest)) {
+    throw new Error(`Checksum manifest has no valid sha256 for ${archiveName}`);
+  }
+  return digest;
+}
+
+function assertHttps(url) {
+  if (!/^https:\/\//i.test(url)) {
+    throw new Error(`Refusing a non-HTTPS URL: ${url}`);
+  }
+}
+
 function downloadFile(url) {
   return new Promise((resolve, reject) => {
-    const follow = (url, redirects) => {
+    const follow = (target, redirects) => {
       if (redirects > 5) {
         return reject(new Error("Too many redirects"));
       }
 
-      const proto = url.startsWith("https") ? https : require("http");
-      proto
-        .get(url, { headers: { "User-Agent": "revkeen-cli-npm" } }, (res) => {
+      try {
+        // A redirect must not downgrade the transport. GitHub redirects release
+        // downloads to objects.githubusercontent.com over HTTPS; anything else
+        // is refused rather than followed over plain HTTP.
+        assertHttps(target);
+      } catch (err) {
+        return reject(err);
+      }
+
+      https
+        .get(target, { headers: { "User-Agent": "revkeen-cli-npm" } }, (res) => {
           if (res.statusCode >= 300 && res.statusCode < 400 && res.headers.location) {
-            return follow(res.headers.location, redirects + 1);
+            // Drain the redirect body: an unread response keeps the TLS socket
+            // open, and node then waits ~30 s before the process can exit.
+            res.resume();
+            return follow(new URL(res.headers.location, target).toString(), redirects + 1);
           }
           if (res.statusCode !== 200) {
-            return reject(
-              new Error(`Download failed: HTTP ${res.statusCode} from ${url}`)
-            );
+            res.resume();
+            return reject(new Error(`Download failed: HTTP ${res.statusCode} from ${target}`));
           }
           const chunks = [];
           res.on("data", (chunk) => chunks.push(chunk));
@@ -74,32 +126,58 @@ function downloadFile(url) {
   });
 }
 
-async function extractTarGz(buffer, destDir) {
-  const tmpFile = path.join(os.tmpdir(), `revkeen-${Date.now()}.tar.gz`);
-  fs.writeFileSync(tmpFile, buffer);
-  try {
-    execSync(`tar -xzf "${tmpFile}" -C "${destDir}"`, { stdio: "pipe" });
-  } finally {
-    fs.unlinkSync(tmpFile);
+function verifyDigest(buffer, archiveName) {
+  const expected = expectedDigest(archiveName);
+  const actual = crypto.createHash("sha256").update(buffer).digest("hex");
+  if (actual !== expected) {
+    throw new Error(
+      `Checksum mismatch for ${archiveName}: expected ${expected}, got ${actual}. ` +
+        "The downloaded archive is not the one this package was published against; nothing was extracted."
+    );
   }
 }
 
-async function extractZip(buffer, destDir) {
-  const tmpFile = path.join(os.tmpdir(), `revkeen-${Date.now()}.zip`);
-  fs.writeFileSync(tmpFile, buffer);
+// execFile with an argument array: no shell, so no path or filename is ever
+// parsed as a command. The temp directory is created with mkdtemp rather than a
+// guessable Date.now() name.
+function withTempArchive(buffer, suffix, run) {
+  const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), "revkeen-"));
+  const tmpFile = path.join(tmpDir, `revkeen.${suffix}`);
+  fs.writeFileSync(tmpFile, buffer, { mode: 0o600 });
   try {
-    // Use PowerShell on Windows, unzip on Unix
+    run(tmpFile);
+  } finally {
+    fs.rmSync(tmpDir, { recursive: true, force: true });
+  }
+}
+
+function extractTarGz(buffer, destDir) {
+  withTempArchive(buffer, "tar.gz", (tmpFile) => {
+    execFileSync("tar", ["-xzf", tmpFile, "-C", destDir], { stdio: "pipe" });
+  });
+}
+
+function extractZip(buffer, destDir) {
+  withTempArchive(buffer, "zip", (tmpFile) => {
     if (process.platform === "win32") {
-      execSync(
-        `powershell -Command "Expand-Archive -Path '${tmpFile}' -DestinationPath '${destDir}' -Force"`,
-        { stdio: "pipe" }
+      // The paths travel in the environment, so PowerShell never parses them.
+      execFileSync(
+        "powershell",
+        [
+          "-NoProfile",
+          "-NonInteractive",
+          "-Command",
+          "Expand-Archive -LiteralPath $env:REVKEEN_ARCHIVE -DestinationPath $env:REVKEEN_DEST -Force",
+        ],
+        {
+          stdio: "pipe",
+          env: { ...process.env, REVKEEN_ARCHIVE: tmpFile, REVKEEN_DEST: destDir },
+        }
       );
     } else {
-      execSync(`unzip -o "${tmpFile}" -d "${destDir}"`, { stdio: "pipe" });
+      execFileSync("unzip", ["-o", tmpFile, "-d", destDir], { stdio: "pipe" });
     }
-  } finally {
-    fs.unlinkSync(tmpFile);
-  }
+  });
 }
 
 async function main() {
@@ -114,18 +192,24 @@ async function main() {
     return;
   }
 
+  // Read the manifest before the download, so a package that cannot verify
+  // fails before it fetches anything.
+  expectedDigest(archiveName);
+
   const url = `https://github.com/${REPO}/releases/download/v${VERSION}/${archiveName}`;
   console.log(`Downloading revkeen v${VERSION} for ${process.platform}/${process.arch}...`);
   console.log(`  ${url}`);
 
   const buffer = await downloadFile(url);
+  verifyDigest(buffer, archiveName);
+  console.log(`  sha256 verified against checksums.json`);
 
   mkdirSync(binDir, { recursive: true });
 
   if (archiveName.endsWith(".zip")) {
-    await extractZip(buffer, binDir);
+    extractZip(buffer, binDir);
   } else {
-    await extractTarGz(buffer, binDir);
+    extractTarGz(buffer, binDir);
   }
 
   // chmod +x on Unix

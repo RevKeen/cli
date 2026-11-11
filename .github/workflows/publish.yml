@@ -171,6 +171,57 @@ jobs:
           done
           exit "$missing"
 
+      # install.js verifies the archive's SHA-256 against npm/checksums.json
+      # before extracting it, and refuses to install when it cannot. A candidate
+      # whose manifest does not describe this release would publish a package
+      # that cannot install, so prove the two agree here rather than on a
+      # customer's machine.
+      - name: Verify npm/checksums.json against the release checksums
+        if: steps.plan.outputs.release == 'true'
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VERSION: ${{ steps.plan.outputs.version }}
+        run: |
+          set -euo pipefail
+          gh release download "v${VERSION}" --repo "$GITHUB_REPOSITORY" \
+            --pattern checksums.txt --dir "$RUNNER_TEMP" --clobber
+          node -e '
+            const fs = require("node:fs");
+            const fail = (m) => { console.error(`::error::${m}`); process.exit(1); };
+            if (!fs.existsSync("npm/checksums.json")) {
+              fail("npm/checksums.json is missing; install.js refuses to install without it");
+            }
+            const manifest = JSON.parse(fs.readFileSync("npm/checksums.json", "utf8"));
+            if (manifest.schemaVersion !== 1) fail("npm/checksums.json: unsupported schemaVersion");
+            if (manifest.algorithm !== "sha256") fail("npm/checksums.json: algorithm must be sha256");
+            if (manifest.version !== process.env.VERSION) {
+              fail(`npm/checksums.json is for v${manifest.version}, releasing v${process.env.VERSION}`);
+            }
+            const released = new Map(
+              fs.readFileSync(`${process.env.RUNNER_TEMP}/checksums.txt`, "utf8")
+                .split("\n")
+                .filter(Boolean)
+                .map((line) => line.trim().split(/\s+/))
+                .map(([digest, name]) => [name, digest])
+            );
+            const archives = [
+              "revkeen_darwin_amd64.tar.gz",
+              "revkeen_darwin_arm64.tar.gz",
+              "revkeen_linux_amd64.tar.gz",
+              "revkeen_linux_arm64.tar.gz",
+              "revkeen_windows_amd64.zip",
+            ];
+            for (const name of archives) {
+              const expected = released.get(name);
+              if (!expected) fail(`the v${process.env.VERSION} checksums.txt has no entry for ${name}`);
+              if (manifest.archives?.[name] !== expected) {
+                fail(`npm/checksums.json ${name}: ${manifest.archives?.[name] ?? "missing"} does not match the released ${expected}`);
+              }
+            }
+            console.log(`ok: ${archives.length} archive checksums match the v${process.env.VERSION} release`);
+          '
+
   publish:
     name: Publish with provenance
     needs: plan

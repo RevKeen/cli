@@ -1,0 +1,14 @@
+{
+  "schemaVersion": 1,
+  "package": "@revkeen/cli-binary",
+  "version": "0.3.1",
+  "release": "v0.3.1",
+  "algorithm": "sha256",
+  "archives": {
+    "revkeen_darwin_amd64.tar.gz": "fa4d598abad47f76b7c836fc29d39cc209f4b2dde0d0bd5f8bac678e3d6f3c8e",
+    "revkeen_darwin_arm64.tar.gz": "f482956c35c59d7d4ae2398e08674e70dd59fa65390fcd5ee799487a0f97279e",
+    "revkeen_linux_amd64.tar.gz": "55f6bcbfcadfd7ac7f97298452b28f1188257dec293efb7f4e27e7c318d0517d",
+    "revkeen_linux_arm64.tar.gz": "5f0f7eaa25c3c2fc0cfc86d0ec07952389d2de849086cabf3d8309ab3240764a",
+    "revkeen_windows_amd64.zip": "48aea583317c2c7a38e5f1efbdafb693a2b892745d2039d8de9bdd95e68d22f2"
+  }
+}
