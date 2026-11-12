@@ -48,20 +48,26 @@ function getBinaryName() {
 }
 
 // The expected SHA-256 of every archive this version downloads, written at
-// release time from GoReleaser's checksums.txt. npm's own integrity hash covers
-// this file, so a release asset replaced after publication no longer installs.
-// Missing or mismatched is fatal: there is no unverified install path.
-function expectedDigest(archiveName) {
-  let manifest;
+// release time from GoReleaser's checksums.txt. npm's integrity hash covers this
+// file, so a release asset replaced after publication no longer installs.
+//
+// Absent means this is a source checkout of the wrapper rather than a published
+// package: the manifest is generated at release time, and the publish workflow
+// refuses to publish a candidate without one. That case skips the download
+// entirely — nothing unverified is ever installed either way. A manifest that
+// exists but does not describe this package is fatal.
+function readManifest() {
+  let raw;
   try {
-    manifest = JSON.parse(fs.readFileSync(CHECKSUMS_PATH, "utf8"));
+    raw = fs.readFileSync(CHECKSUMS_PATH, "utf8");
   } catch (err) {
-    throw new Error(
-      `Cannot read the checksum manifest at ${CHECKSUMS_PATH} (${err.message}). ` +
-        "A published @revkeen/cli-binary always ships one; refusing to install an unverified binary."
-    );
+    if (err.code === "ENOENT") {
+      return null;
+    }
+    throw new Error(`Cannot read the checksum manifest at ${CHECKSUMS_PATH} (${err.message})`);
   }
 
+  const manifest = JSON.parse(raw);
   if (manifest.schemaVersion !== 1) {
     throw new Error(`Unsupported checksum manifest schemaVersion: ${manifest.schemaVersion}`);
   }
@@ -73,7 +79,10 @@ function expectedDigest(archiveName) {
       `Checksum manifest is for v${manifest.version} but this package is v${VERSION}.`
     );
   }
+  return manifest;
+}
 
+function expectedDigest(manifest, archiveName) {
   const digest = manifest.archives?.[archiveName];
   if (typeof digest !== "string" || !/^[0-9a-f]{64}$/.test(digest)) {
     throw new Error(`Checksum manifest has no valid sha256 for ${archiveName}`);
@@ -126,8 +135,8 @@ function downloadFile(url) {
   });
 }
 
-function verifyDigest(buffer, archiveName) {
-  const expected = expectedDigest(archiveName);
+function verifyDigest(buffer, manifest, archiveName) {
+  const expected = expectedDigest(manifest, archiveName);
   const actual = crypto.createHash("sha256").update(buffer).digest("hex");
   if (actual !== expected) {
     throw new Error(
@@ -192,16 +201,26 @@ async function main() {
     return;
   }
 
-  // Read the manifest before the download, so a package that cannot verify
-  // fails before it fetches anything.
-  expectedDigest(archiveName);
+  // Read the manifest before the download, so a package that cannot verify fails
+  // before it fetches anything.
+  const manifest = readManifest();
+  if (!manifest) {
+    console.warn(
+      "No checksums.json next to install.js, so this is a source checkout of the wrapper " +
+        "rather than a published @revkeen/cli-binary. Skipping the binary download: it is " +
+        "verified against that manifest, and nothing unverified is installed. Build the CLI " +
+        "from source, or install @revkeen/cli-binary from npm."
+    );
+    return;
+  }
+  expectedDigest(manifest, archiveName);
 
   const url = `https://github.com/${REPO}/releases/download/v${VERSION}/${archiveName}`;
   console.log(`Downloading revkeen v${VERSION} for ${process.platform}/${process.arch}...`);
   console.log(`  ${url}`);
 
   const buffer = await downloadFile(url);
-  verifyDigest(buffer, archiveName);
+  verifyDigest(buffer, manifest, archiveName);
   console.log(`  sha256 verified against checksums.json`);
 
   mkdirSync(binDir, { recursive: true });
