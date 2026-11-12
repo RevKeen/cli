@@ -10,6 +10,7 @@
   },
   "files": [
     "install.js",
+    "checksums.json",
     "run.js",
     "bin/LICENSE",
     "bin/README.md"
