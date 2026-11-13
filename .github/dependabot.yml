@@ -1,0 +1,39 @@
+# Dependabot: keep this repository's GitHub Actions pins current.
+#
+# WHY ONLY github-actions
+#   The actions in .github/workflows are pinned to full commit SHAs with a
+#   trailing `# vX.Y.Z` comment (REV-13171, under the REV-12917 policy: pin
+#   everything). A pinned SHA is immutable, which is the whole point -- and it
+#   also means nothing moves it when the action ships a fix, so the pins rot
+#   silently. Dependabot's github-actions ecosystem understands that exact
+#   form: it bumps the SHA and rewrites the version comment, keeping the pins
+#   current without giving up the pinning.
+#
+#   npm, composer and gomod version updates are deliberately NOT configured.
+#   Dependabot SECURITY updates already run on this repository with no config
+#   at all, so the advisory lane is not affected by this file; adding version
+#   updates for the package manifests would multiply pull requests and CI
+#   minutes for no security gain.
+#
+# COST
+#   One check a week, grouped into a single pull request covering every action
+#   in the repository, and at most one such pull request open at a time. This
+#   file adds no CI job: the repository's existing checks run on that pull
+#   request as they would on any other.
+version: 2
+updates:
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "06:00"
+      timezone: "Etc/UTC"
+    # One pull request a week for all of them, not one per action.
+    groups:
+      github-actions:
+        patterns:
+          - "*"
+    open-pull-requests-limit: 1
+    commit-message:
+      prefix: "ci"
